@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import py.org.fundacionparaguaya.pspserver.families.dtos.FamilyDTO;
 import py.org.fundacionparaguaya.pspserver.families.dtos.FamilyFilterDTO;
 import py.org.fundacionparaguaya.pspserver.families.dtos.FamilyMapDTO;
-import py.org.fundacionparaguaya.pspserver.families.services.FamilyMapService;
+import py.org.fundacionparaguaya.pspserver.families.services.FamilySnapshotsManager;
 import py.org.fundacionparaguaya.pspserver.families.services.FamilyService;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 
@@ -36,9 +36,9 @@ public class FamilyController {
 
 	private FamilyService familyService;
 
-	private FamilyMapService familyMapService;
+	private FamilySnapshotsManager familyMapService;
 
-	public FamilyController(FamilyService familyService, FamilyMapService familyMapService) {
+	public FamilyController(FamilyService familyService, FamilySnapshotsManager familyMapService) {
 		this.familyService = familyService;
 		this.familyMapService = familyMapService;
 	}
@@ -63,27 +63,22 @@ public class FamilyController {
 		return ResponseEntity.ok(dto);
 	}
 
-	@GetMapping()
-	public ResponseEntity<List<FamilyDTO>> getAllFamilies() {
-		List<FamilyDTO> families = familyService.getAllFamilies();
-		return ResponseEntity.ok(families);
-	}
-
 	@DeleteMapping("/{familyId}")
-	public ResponseEntity<Void> deleteFamily(@PathVariable("familyId") Long familyId) {
+	public ResponseEntity<?> deleteFamily(@PathVariable("familyId") Long familyId) {
 		LOG.debug("REST request to delete Family: {}", familyId);
-		familyService.deleteFamily(familyId);
-		return ResponseEntity.ok().build();
+		familyMapService.deleteSnapshotByFamily(familyId);
+		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/filter")
-	public ResponseEntity<List<FamilyDTO>> getFamiliesByFilter(
+	@GetMapping()
+	public ResponseEntity<List<FamilyDTO>> getAllFamilies(
 			@RequestParam(value = "organization_id", required = false) Long organizationId,
 			@RequestParam(value = "country_id", required = false) Long countryId,
 			@RequestParam(value = "city_id", required = false) Long cityId,
 			@RequestParam(value = "free_text", required = false) String name,
+			@RequestParam(value = "application_id", required = false) Long applicationId,
 			@AuthenticationPrincipal UserDetailsDTO details) {
-		FamilyFilterDTO filter = new FamilyFilterDTO(organizationId, countryId, cityId, name);
+		FamilyFilterDTO filter = new FamilyFilterDTO(applicationId, organizationId, countryId, cityId, name, true);
 		List<FamilyDTO> families = familyService.listFamilies(filter, details);
 		return ResponseEntity.ok(families);
 	}

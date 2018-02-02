@@ -137,7 +137,9 @@ public class Property  implements Serializable {
         NUMBER("number") {
             @Override
             public Boolean apply(Object value) {
-                return value instanceof Float || value instanceof Double;
+                return value instanceof Float
+                		|| value instanceof Double
+                		|| value instanceof Integer;
             }
         },
         BOOLEAN("boolean") {

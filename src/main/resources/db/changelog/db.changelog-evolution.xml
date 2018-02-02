@@ -197,5 +197,35 @@
     <changeSet id="2017-12-28T16:00" author="rvillalba">
         <sqlFile path="sql/2017-12-28T16:00.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    
+    <!-- Change data type for income columns-->
+    <changeSet id="2018-01-03T15:30" author="mgonzalez">
+        <sqlFile path="sql/2018-01-03T15:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add enabled column in family table -->
+    <changeSet id="2018-01-06T09:13" author="mcespedes">
+        <sqlFile path="sql/2018-01-06T09:13.sql" relativeToChangelogFile="true"/>
+	</changeSet>
+	
+    <!-- Create termcondpol table and add relationships into snapshots_economic table -->
+    <changeSet id="2018-01-08T09:00" author="mgonzalez">
+        <sqlFile path="sql/2018-01-08T09:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    
+    <!-- Insert example for "Terms and Conditions" and "Privacy Policies" -->
+    <changeSet id="2018-01-09T23:00" author="mgonzalez">
+        <sqlFile path="sql/2018-01-09T23:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    
+    <!-- Add personal_information column into snapshots_economics table" -->
+    <changeSet id="2018-01-11T14:00" author="mgonzalez">
+        <sqlFile path="sql/2018-01-11T14:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    
+    <!-- Create snapshot draft table" -->
+    <changeSet id="2018-01-18T11:30" author="mgonzalez">
+        <sqlFile path="sql/2018-01-18T11:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>

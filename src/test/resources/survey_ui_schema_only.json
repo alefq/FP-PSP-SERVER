@@ -76,6 +76,30 @@
       },
       "familyUbication": {
       	"ui:field": "gmap"
+      },
+      "householdMonthlyIncome": {
+      	"ui:field": "numberFormat"
+      },
+      "salaryIncome": {
+      	"ui:field": "numberFormat"
+      },
+      "benefitIncome": {
+      	"ui:field": "numberFormat"
+      },
+      "pensionIncome": {
+      	"ui:field": "numberFormat"
+      },
+      "savingsIncome": {
+      	"ui:field": "numberFormat"
+      },
+      "otherIncome": {
+      	"ui:field": "numberFormat"
+      },
+      "householdMonthlyOutgoing": {
+      	"ui:field": "numberFormat"
+      },
+      "netSuplus": {
+      	"ui:field": "numberFormat"
       }
    },
 

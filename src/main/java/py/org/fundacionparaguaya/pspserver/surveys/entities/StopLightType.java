@@ -5,5 +5,5 @@ package py.org.fundacionparaguaya.pspserver.surveys.entities;
  */
 public enum StopLightType {
 
-    MANDATORY, RECOMMENDED;
+	MANDATORY, RECOMMENDED;
 }

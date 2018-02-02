@@ -1,20 +1,30 @@
 package py.org.fundacionparaguaya.pspserver.web.rest;
 
-import io.swagger.annotations.ApiParam;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.ApiParam;
 import py.org.fundacionparaguaya.pspserver.common.exceptions.NotFoundException;
+import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.NewSnapshot;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.Snapshot;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.SnapshotIndicators;
 import py.org.fundacionparaguaya.pspserver.surveys.services.SnapshotService;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 
 /**
  * Created by rodrigovillalba on 10/5/17.
@@ -46,11 +56,11 @@ public class SnapshotController {
     @io.swagger.annotations.ApiOperation(value = "Create Snapshot", notes = "A `POST` request will create new snapshot for a particular survey.", response = Snapshot.class, tags = {})
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "The created snapshot", response = Snapshot.class) })
-    public ResponseEntity addSnapshot(
+    public ResponseEntity addSnapshot(@AuthenticationPrincipal UserDetailsDTO details,
             @ApiParam(value = "The snapshot", required = true) @RequestBody NewSnapshot snapshot)
             throws NotFoundException, URISyntaxException {
         LOG.debug("REST request to add Snapshot : {}", snapshot);
-        Snapshot data = snapshotService.addSurveySnapshot(snapshot);
+        Snapshot data = snapshotService.addSurveySnapshot(details, snapshot);
         URI surveyLocation = new URI("/snapshots/" + data.getSurveyId());
         return ResponseEntity.created(surveyLocation).body(data);
     }
@@ -74,6 +84,14 @@ public class SnapshotController {
     public ResponseEntity<List<SnapshotIndicators>> getSnapshotsIndicatorsByFamily(@RequestParam(value = "family_id", required = false) Long familiyId) {
         List<SnapshotIndicators> snapshots = snapshotService.getSnapshotIndicatorsByFamily(familiyId);
         return ResponseEntity.ok(snapshots);
+    }
+    
+    
+    @DeleteMapping(value = "/{snapshotEconomicId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> deleteSnapshot(
+    		@PathVariable("snapshotEconomicId") Long snapshotEconomicId) {
+    	snapshotService.deleteSnapshotById(snapshotEconomicId);
+        return ResponseEntity.noContent().build();
     }
     
 

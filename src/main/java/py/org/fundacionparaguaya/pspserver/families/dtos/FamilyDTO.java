@@ -35,10 +35,15 @@ public class FamilyDTO {
 
 	private OrganizationDTO organization;
 	
+	private boolean isActive;
+	
 	public FamilyDTO(){}
 
-	private FamilyDTO(Long familyId, String name, String code, CountryDTO country, CityDTO city, String locationType,
-			String locationPositionGps, PersonDTO person, ApplicationDTO application, OrganizationDTO organization) {
+	private FamilyDTO(Long familyId, String name, String code, 
+			CountryDTO country, CityDTO city, String locationType,
+			String locationPositionGps, PersonDTO person, 
+			ApplicationDTO application, OrganizationDTO organization, 
+			boolean isActive) {
 		this.familyId = familyId;
 		this.name = name;
 		this.code = code;
@@ -49,6 +54,7 @@ public class FamilyDTO {
 		this.person = person;
 		this.application = application;
 		this.organization = organization;
+		this.isActive = isActive;
 	}
 
 	public static class Builder {
@@ -62,6 +68,7 @@ public class FamilyDTO {
 		private PersonDTO person;
 		private ApplicationDTO application;
 		private OrganizationDTO organization;
+		private boolean isActive;
 		
 		public Builder familyId(Long familyId){
 			this.familyId = familyId;
@@ -103,8 +110,15 @@ public class FamilyDTO {
 			this.organization = organization;
 			return this;
 		}
+		public Builder isActive(boolean isActive){
+			this.isActive = isActive;
+			return this;
+		}
 		public FamilyDTO build(){
-			return new FamilyDTO(familyId, name, code, country, city, locationType, locationPositionGps, person, application, organization);
+			return new FamilyDTO(
+				familyId, name, code, country, 
+				city, locationType, locationPositionGps, 
+				person, application, organization, isActive);
 		}
 	}
 	
@@ -191,6 +205,14 @@ public class FamilyDTO {
 		this.organization = organization;
 	}
 	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
@@ -204,6 +226,7 @@ public class FamilyDTO {
 				.add("person", person.toString())
 				.add("application", application.toString())
 				.add("organization", organization.toString())
+				.add("isActive", isActive)
 				.toString();
 	}
 }

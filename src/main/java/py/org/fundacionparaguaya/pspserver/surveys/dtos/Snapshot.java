@@ -13,10 +13,10 @@ public class Snapshot {
 
     @JsonProperty("snapshot_economic_id")
     private Long snapshotEconomicId = null;
-    
+
     @JsonProperty("personal_survey_data")
     private SurveyData personalSurveyData = null;
-    
+
     @JsonProperty("economic_survey_data")
     private SurveyData economicSurveyData = null;
 
@@ -25,7 +25,16 @@ public class Snapshot {
 
     @JsonProperty("created_at")
     private String createdAt;
-    
+
+    @JsonProperty("user_id")
+    private Long userId = null;
+
+    @JsonProperty("term_cond_id")
+    private Long termCondId = null;
+
+    @JsonProperty("priv_pol_id")
+    private Long privPolId = null;
+
     public Snapshot personalSurveyData(SurveyData surveyData) {
         this.personalSurveyData = surveyData;
         return this;
@@ -45,7 +54,8 @@ public class Snapshot {
      * Key/value pairs representing the filled out 'Socio Economics' survey
      * @return surveyData
      **/
-    @ApiModelProperty(value = "Key/value pairs representing the filled out 'Personal' survey")
+    @ApiModelProperty(value = "Key/value pairs representing"
+            + " the filled out 'Personal' survey")
     public SurveyData getPersonalSurveyData() {
         return personalSurveyData;
     }
@@ -53,12 +63,13 @@ public class Snapshot {
     public void setPersonalSurveyData(SurveyData surveyData) {
         this.personalSurveyData = surveyData;
     }
-    
+
     /**
      * Key/value pairs representing the filled out 'Socio Economics' survey
      * @return surveyData
      **/
-    @ApiModelProperty(value = "Key/value pairs representing the filled out 'Socio Economics' survey")
+    @ApiModelProperty(value = "Key/value pairs representing"
+            + " the filled out 'Socio Economics' survey")
     public SurveyData getEconomicSurveyData() {
         return economicSurveyData;
     }
@@ -79,7 +90,7 @@ public class Snapshot {
     public void setSurveyId(Long surveyId) {
         this.surveyId = surveyId;
     }
-    
+
     /**
      * The survey's id that this snapshot belongs to.
      * @return the survey id number respresentation
@@ -97,7 +108,8 @@ public class Snapshot {
      * Key/value pairs representing the filled out 'Indicators' survey
      * @return surveyData
      **/
-    @ApiModelProperty(value = "Key/value pairs representing the filled out 'Indicators' survey")
+    @ApiModelProperty(value = "Key/value pairs representing"
+            + " the filled out 'Indicators' survey")
     public SurveyData getIndicatorSurveyData() {
         return indicatorSurveyData;
     }
@@ -107,10 +119,13 @@ public class Snapshot {
     }
 
     /**
-     * [ISO 8601](https://es.wikipedia.org/wiki/ISO_8601) formatted creation date
+     * [ISO 8601](https://es.wikipedia.org/wiki/ISO_8601)
+     * formatted creation date
      * @return
      */
-    @ApiModelProperty(value = " [ISO 8601](https://es.wikipedia.org/wiki/ISO_8601) formatted creation date")
+    @ApiModelProperty(value = " [ISO 8601]"
+            + "(https://es.wikipedia.org/wiki/ISO_8601)"
+            + " formatted creation date")
     public String getCreatedAt() {
         return createdAt;
     }
@@ -119,15 +134,49 @@ public class Snapshot {
         this.createdAt = createdAt;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getTermCondId() {
+        return termCondId;
+    }
+
+    public void setTermCondId(Long termCondId) {
+        this.termCondId = termCondId;
+    }
+
+    public Long getPrivPolId() {
+        return privPolId;
+    }
+
+    public void setPrivPolId(Long privPolId) {
+        this.privPolId = privPolId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class Snapshot {\n");
-        sb.append("    surveyId: ").append(toIndentedString(surveyId)).append("\n");
-        sb.append("    snapshotEconomicId: ").append(toIndentedString(snapshotEconomicId)).append("\n");
-        sb.append("    personalSurveyData: ").append(toIndentedString(personalSurveyData)).append("\n");
-        sb.append("    economicSurveyData: ").append(toIndentedString(economicSurveyData)).append("\n");
-        sb.append("    indicatorSurveyData: ").append(toIndentedString(indicatorSurveyData)).append("\n");
+        sb.append("    surveyId: ")
+        .append(toIndentedString(surveyId))
+        .append("\n");
+        sb.append("    snapshotEconomicId: ")
+        .append(toIndentedString(snapshotEconomicId))
+        .append("\n");
+        sb.append("    personalSurveyData: ")
+        .append(toIndentedString(personalSurveyData))
+        .append("\n");
+        sb.append("    economicSurveyData: ")
+        .append(toIndentedString(economicSurveyData))
+        .append("\n");
+        sb.append("    indicatorSurveyData: ")
+        .append(toIndentedString(indicatorSurveyData))
+        .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -146,22 +195,42 @@ public class Snapshot {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Snapshot that = (Snapshot) o;
 
-        return com.google.common.base.Objects.equal(this.surveyId, that.surveyId) &&
-        		com.google.common.base.Objects.equal(this.snapshotEconomicId, that.snapshotEconomicId) &&
-        		com.google.common.base.Objects.equal(this.personalSurveyData, that.personalSurveyData) &&
-                com.google.common.base.Objects.equal(this.economicSurveyData, that.economicSurveyData) &&
-                com.google.common.base.Objects.equal(this.createdAt, that.createdAt) &&
-                com.google.common.base.Objects.equal(this.indicatorSurveyData, that.indicatorSurveyData);
+        return com.google.common.base.Objects.equal(this.surveyId,
+                that.surveyId)
+                && com.google.common.base.Objects.equal(this.snapshotEconomicId,
+                        that.snapshotEconomicId)
+                && com.google.common.base.Objects.equal(this.personalSurveyData,
+                        that.personalSurveyData)
+                && com.google.common.base.Objects.equal(this.economicSurveyData,
+                        that.economicSurveyData)
+                && com.google.common.base.Objects.equal(this.createdAt,
+                        that.createdAt)
+                && com.google.common.base.Objects.equal(
+                        this.indicatorSurveyData,
+                        that.indicatorSurveyData)
+                && com.google.common.base.Objects.equal(this.userId,
+                        that.userId)
+                && com.google.common.base.Objects.equal(this.termCondId,
+                        that.termCondId)
+                && com.google.common.base.Objects.equal(this.privPolId,
+                        that.privPolId);
     }
 
     @Override
     public int hashCode() {
-        return com.google.common.base.Objects.hashCode(surveyId, snapshotEconomicId, personalSurveyData, economicSurveyData, indicatorSurveyData, createdAt);
+        return com.google.common.base.Objects.hashCode(surveyId,
+                snapshotEconomicId, personalSurveyData,
+                economicSurveyData, indicatorSurveyData, createdAt,
+                userId, termCondId, privPolId);
     }
 
     public Snapshot snapshotEconomicId(Long id) {
@@ -179,5 +248,19 @@ public class Snapshot {
         return this;
     }
 
+    public Snapshot userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+    
+    public Snapshot termCondId(Long termCondId) {
+        this.termCondId = termCondId;
+        return this;
+    }
+    
+    public Snapshot privPolId(Long privPolId) {
+        this.privPolId = privPolId;
+        return this;
+    }
 
 }

@@ -245,14 +245,23 @@ public class PersonEntity extends BaseEntity {
 	
 	public PersonEntity staticProperties(SurveyData indicatorSurveyData) {
         indicatorSurveyData.entrySet()
-                .stream()
-                .forEach((entry) -> {
-                    try {
-                        PropertyUtils.setProperty(this, entry.getKey(), entry.getValue());
-                    } catch (Exception e) {
-                        throw new RuntimeException("Could not set property '" + entry.getKey() + "' to value '" + entry.getValue() + "'", e);
-                    }
-                });
+        .stream()
+        .forEach((entry) -> {
+        	try {
+            	Object value = null;
+                if (Double.class.equals(PropertyUtils.
+                    getPropertyType(this, entry.getKey()))){
+                    value = Double.valueOf(entry.getValue().toString());
+                } else {
+                	value = entry.getValue();
+                }
+                PropertyUtils.setProperty(this, entry.getKey(), value);
+        	} catch (Exception e) {
+        		throw new RuntimeException("Could not set property '"
+        				+ entry.getKey() + "' to value '"
+        				+ entry.getValue() + "'", e);
+            }
+        });
         return this;
     }
 	

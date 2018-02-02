@@ -22,10 +22,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static py.org.fundacionparaguaya.pspserver.surveys.validation.MultipleSchemaValidator.all;
 import static py.org.fundacionparaguaya.pspserver.surveys.validation.PropertyValidator.validType;
-import static py.org.fundacionparaguaya.pspserver.surveys.validation.SchemaValidator.markedAsRequired;
-import static py.org.fundacionparaguaya.pspserver.surveys.validation.SchemaValidator.presentInSchema;
-import static py.org.fundacionparaguaya.pspserver.surveys.validation.SchemaValidator.requiredValue;
-import static py.org.fundacionparaguaya.pspserver.surveys.validation.SurveyUISchemaValidator.presentInGroup;
+import static py.org.fundacionparaguaya.pspserver.surveys.validation.SchemaValidator.*;
 
 /**
  * Created by rodrigovillalba on 9/14/17.
@@ -74,9 +71,6 @@ public class SurveyServiceImpl implements SurveyService {
                             attr.getPropertySchemaName(), null));
                 });
 
-        propertyAttributeSupport.getPropertyAttributes().stream().forEach(attr -> {
-            results.add(presentInGroup().apply(surveyDefinition.getSurveyUISchema(), attr));
-        });
 
         return results;
     }

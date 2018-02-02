@@ -68,6 +68,8 @@ public class FamilyEntity extends BaseEntity {
 	@ManyToOne(targetEntity = OrganizationEntity.class)
 	@JoinColumn(name = "organization_id")
 	private OrganizationEntity organization;
+	
+	private boolean isActive;
 
 	public Long getFamilyId() {
 		return familyId;
@@ -148,8 +150,15 @@ public class FamilyEntity extends BaseEntity {
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
 	}
-
 	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -178,6 +187,7 @@ public class FamilyEntity extends BaseEntity {
 				.add("person", person.toString())
 				.add("application", application.toString())
 				.add("organization", organization.toString())
+				.add("isActive", isActive)
 				.toString();
 	}
 }

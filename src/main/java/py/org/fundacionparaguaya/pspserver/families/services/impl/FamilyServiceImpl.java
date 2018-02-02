@@ -5,13 +5,13 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 import static py.org.fundacionparaguaya.pspserver.families.specifications.FamilySpecification.byFilter;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import py.org.fundacionparaguaya.pspserver.common.exceptions.UnknownResourceException;
@@ -25,6 +25,7 @@ import py.org.fundacionparaguaya.pspserver.families.services.FamilyService;
 import py.org.fundacionparaguaya.pspserver.network.dtos.ApplicationDTO;
 import py.org.fundacionparaguaya.pspserver.network.dtos.OrganizationDTO;
 import py.org.fundacionparaguaya.pspserver.network.entities.OrganizationEntity;
+import py.org.fundacionparaguaya.pspserver.network.mapper.ApplicationMapper;
 import py.org.fundacionparaguaya.pspserver.network.repositories.OrganizationRepository;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.NewSnapshot;
@@ -47,17 +48,24 @@ public class FamilyServiceImpl implements FamilyService {
     private final CityRepository cityRepository;
 
     private final OrganizationRepository organizationRepository;
+    
+    private final ApplicationMapper applicationMapper;
 
     private static final String SPACE = " ";
-
-    public FamilyServiceImpl(FamilyRepository familyRepository, FamilyMapper familyMapper,
-    		CountryRepository countryRepository, CityRepository cityRepository,
-            OrganizationRepository organizationRepository) {
+    
+    @Autowired
+    public FamilyServiceImpl(FamilyRepository familyRepository, 
+    		FamilyMapper familyMapper,
+    		CountryRepository countryRepository, 
+    		CityRepository cityRepository,
+            OrganizationRepository organizationRepository, 
+            ApplicationMapper applicationMapper){
         this.familyRepository = familyRepository;
         this.familyMapper = familyMapper;
         this.countryRepository = countryRepository;
         this.cityRepository = cityRepository;
         this.organizationRepository = organizationRepository;
+        this.applicationMapper = applicationMapper;
     }
 
     @Override
@@ -97,9 +105,13 @@ public class FamilyServiceImpl implements FamilyService {
     public void deleteFamily(Long familyId) {
         checkArgument(familyId > 0, "Argument was %s but expected nonnegative", familyId);
 
-        Optional.ofNullable(familyRepository.findOne(familyId)).ifPresent(family -> {
-            familyRepository.delete(family);
-            LOG.debug("Deleted Family: {}", family);
+        Optional.ofNullable(familyRepository
+        		.findOne(familyId))
+                  .ifPresent(family -> {
+	       family.setActive(false);
+	       familyRepository.save(family);
+	       LOG.debug("Deleted Family: {}", family);
+	       
         });
     }
 
@@ -110,26 +122,12 @@ public class FamilyServiceImpl implements FamilyService {
         String birthdate = person.getBirthdate().format(formatter);
 
         String code = person.getCountryOfBirth().getAlfa2Code().concat(".")
-                .concat(person.getFirstName().substring(0, 1)).concat(person.getLastName().substring(0, 1)).concat(".")
+                .concat(person.getFirstName().substring(0, 1).toUpperCase()).concat(person.getLastName().substring(0, 1).toUpperCase()).concat(".")
                 .concat(birthdate);
 
         return code;
     }
 
-    @Override
-    public List<FamilyDTO> getFamiliesByFilter(Long organizationId, Long countryId, Long cityId, String freeText) {
-		
-	  	List<FamilyEntity> listFamilies = new ArrayList<FamilyEntity>();
-	  	
-	  	if (organizationId != null && countryId != null && cityId != null) {
-	  		listFamilies = familyRepository.findByOrganizationIdAndCountryIdAndCityIdAndNameContainingIgnoreCase(organizationId, countryId, cityId, freeText);
-		}else{
-			listFamilies = familyRepository.findByNameContainingIgnoreCase(freeText);
-		}
-		
-		return familyMapper.entityListToDtoList(listFamilies);
-	}
-    
     @Override
     public List<FamilyDTO> listFamilies(FamilyFilterDTO filter, UserDetailsDTO userDetails) {
         loadFilterByDetails(filter, userDetails);
@@ -140,12 +138,18 @@ public class FamilyServiceImpl implements FamilyService {
 	}
     
     @Override
-    public FamilyEntity createFamilyFromSnapshot(NewSnapshot snapshot, String code, PersonEntity person) {
+    public FamilyEntity createFamilyFromSnapshot(UserDetailsDTO details, NewSnapshot snapshot, String code, PersonEntity person) {
+   
         FamilyEntity newFamily = new FamilyEntity();
         newFamily.setPerson(person);
         newFamily.setCode(code);
         newFamily.setName(person.getFirstName().concat(SPACE).concat(person.getLastName()));
         newFamily.setLocationPositionGps(snapshot.getEconomicSurveyData().getAsString("familyUbication"));
+        if (details.getApplication()!=null) {
+            newFamily.setApplication(applicationMapper.
+                    dtoToEntity(details.getApplication()));
+        }
+        newFamily.setActive(true);
 
         Optional<CountryEntity> country = countryRepository
                 .findByCountry(snapshot.getEconomicSurveyData().getAsString("familyCountry"));

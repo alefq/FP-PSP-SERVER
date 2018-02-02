@@ -19,4 +19,5 @@ public class FamilyEntity_ {
     public static volatile SingularAttribute<FamilyEntity, CountryEntity> country;
     public static volatile SingularAttribute<FamilyEntity, CityEntity> city;
     public static volatile SingularAttribute<FamilyEntity, String> name;
+    public static volatile SingularAttribute<FamilyEntity, Boolean> isActive;
 }

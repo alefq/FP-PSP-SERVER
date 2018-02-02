@@ -6,12 +6,27 @@ import org.hibernate.annotations.Type;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 import py.org.fundacionparaguaya.pspserver.families.entities.FamilyEntity;
+import py.org.fundacionparaguaya.pspserver.security.entities.TermCondPolEntity;
+import py.org.fundacionparaguaya.pspserver.security.entities.UserEntity;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.SurveyData;
 import py.org.fundacionparaguaya.pspserver.surveys.entities.types.SecondJSONBUserType;
 
-import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by rodrigovillalba on 10/19/17.
@@ -21,11 +36,21 @@ import java.time.format.DateTimeFormatter;
 public class SnapshotEconomicEntity implements StoreableSnapshot {
 
     @Id
-    @GenericGenerator(name = "snapshotsEconomicsSequenceGenerator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-            @org.hibernate.annotations.Parameter(name = SequenceStyleGenerator.SCHEMA, value = "data_collect"),
-            @org.hibernate.annotations.Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "snapshots_economics_id_seq"),
-            @org.hibernate.annotations.Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "1"),
-            @org.hibernate.annotations.Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "1") })
+    @GenericGenerator(name = "snapshotsEconomicsSequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+            @org.hibernate.annotations.Parameter(
+                    name = SequenceStyleGenerator.SCHEMA,
+                    value = "data_collect"),
+            @org.hibernate.annotations.Parameter(
+                    name = SequenceStyleGenerator.SEQUENCE_PARAM,
+                    value = "snapshots_economics_id_seq"),
+            @org.hibernate.annotations.Parameter(
+                    name = SequenceStyleGenerator.INITIAL_PARAM,
+                    value = "1"),
+            @org.hibernate.annotations.Parameter(
+                    name = SequenceStyleGenerator.INCREMENT_PARAM,
+                    value = "1") })
     @GeneratedValue(generator = "snapshotsEconomicsSequenceGenerator")
     @Column(name = "id")
     private Long id;
@@ -59,28 +84,28 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
     private String activitySecondary;
 
     @Column(name = "household_monthly_income")
-    private Integer householdMonthlyIncome;
+    private Double householdMonthlyIncome;
 
     @Column(name = "salary_income")
-    private Integer salaryIncome;
+    private Double salaryIncome;
 
     @Column(name = "benefit_income")
-    private Integer benefitIncome;
+    private Double  benefitIncome;
 
     @Column(name = "pension_income")
-    private Integer pensionIncome;
+    private Double pensionIncome;
 
     @Column(name = "savings_income")
-    private Integer savingsIncome;
+    private Double savingsIncome;
 
     @Column(name = "other_income")
-    private Integer otherIncome;
+    private Double otherIncome;
 
     @Column(name = "household_monthly_outgoing")
-    private Integer householdMonthlyOutgoing;
+    private Double householdMonthlyOutgoing;
 
     @Column(name = "net_suplus")
-    private Integer netSuplus;
+    private Double netSuplus;
 
     @Column(name = "education_client_level")
     private String educationClientLevel;
@@ -95,8 +120,14 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
     private String housingSituation;
 
     @Column(name = "additional_properties")
-    @Type(type = "py.org.fundacionparaguaya.pspserver.surveys.entities.types.SecondJSONBUserType", parameters = {
-            @org.hibernate.annotations.Parameter(name = SecondJSONBUserType.CLASS, value = "py.org.fundacionparaguaya.pspserver.surveys.dtos.SurveyData") })
+    @Type(type = "py.org.fundacionparaguaya.pspserver."
+            + "surveys.entities.types.SecondJSONBUserType",
+    parameters = {
+            @org.hibernate.annotations.Parameter(
+                    name = SecondJSONBUserType.CLASS,
+                    value = "py.org.fundacionparaguaya."
+            + "pspserver.surveys.dtos.SurveyData")
+            })
     private SurveyData additionalProperties;
 
     @Column(name = "created_at")
@@ -105,12 +136,35 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
 
     @Column(name = "family_ubication")
     private String familyUbication;
-    
+
     @Column(name = "family_country")
     private String familyCountry;
-    
+
     @Column(name = "family_city")
     private String familyCity;
+
+    @ManyToOne(targetEntity = UserEntity.class)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @ManyToOne(targetEntity = TermCondPolEntity.class)
+    @JoinColumn(name = "term_cond_id")
+    private TermCondPolEntity termCond;
+
+    @ManyToOne(targetEntity = TermCondPolEntity.class)
+    @JoinColumn(name = "priv_pol_id")
+    private TermCondPolEntity privPol;
+    
+    @Column(name = "personal_information")
+    @Type(type = "py.org.fundacionparaguaya.pspserver."
+            + "surveys.entities.types.SecondJSONBUserType",
+    parameters = {
+            @org.hibernate.annotations.Parameter(
+                    name = SecondJSONBUserType.CLASS,
+                    value = "py.org.fundacionparaguaya."
+            + "pspserver.surveys.dtos.SurveyData")
+            })
+    private SurveyData personalInformation;
 
     public Long getId() {
         return id;
@@ -140,7 +194,8 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
         return snapshotIndicator;
     }
 
-    public void setSnapshotIndicator(SnapshotIndicatorEntity snapshotIndicator) {
+    public void setSnapshotIndicator(SnapshotIndicatorEntity
+            snapshotIndicator) {
         this.snapshotIndicator = snapshotIndicator;
     }
 
@@ -192,67 +247,67 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
         this.activitySecondary = activitySecondary;
     }
 
-    public Integer getHouseholdMonthlyIncome() {
+    public Double getHouseholdMonthlyIncome() {
         return householdMonthlyIncome;
     }
 
-    public void setHouseholdMonthlyIncome(Integer householdMonthlyIncome) {
+    public void setHouseholdMonthlyIncome(Double householdMonthlyIncome) {
         this.householdMonthlyIncome = householdMonthlyIncome;
     }
 
-    public Integer getSalaryIncome() {
+    public Double getSalaryIncome() {
         return salaryIncome;
     }
 
-    public void setSalaryIncome(Integer salaryIncome) {
+    public void setSalaryIncome(Double salaryIncome) {
         this.salaryIncome = salaryIncome;
     }
 
-    public Integer getBenefitIncome() {
+    public Double getBenefitIncome() {
         return benefitIncome;
     }
 
-    public void setBenefitIncome(Integer benefitIncome) {
+    public void setBenefitIncome(Double benefitIncome) {
         this.benefitIncome = benefitIncome;
     }
 
-    public Integer getPensionIncome() {
+    public Double getPensionIncome() {
         return pensionIncome;
     }
 
-    public void setPensionIncome(Integer pensionIncome) {
+    public void setPensionIncome(Double pensionIncome) {
         this.pensionIncome = pensionIncome;
     }
 
-    public Integer getSavingsIncome() {
+    public Double getSavingsIncome() {
         return savingsIncome;
     }
 
-    public void setSavingsIncome(Integer savingsIncome) {
+    public void setSavingsIncome(Double savingsIncome) {
         this.savingsIncome = savingsIncome;
     }
 
-    public Integer getOtherIncome() {
+    public Double getOtherIncome() {
         return otherIncome;
     }
 
-    public void setOtherIncome(Integer otherIncome) {
+    public void setOtherIncome(Double otherIncome) {
         this.otherIncome = otherIncome;
     }
 
-    public Integer getHouseholdMonthlyOutgoing() {
+    public Double getHouseholdMonthlyOutgoing() {
         return householdMonthlyOutgoing;
     }
 
-    public void setHouseholdMonthlyOutgoing(Integer householdMonthlyOutgoing) {
+    public void setHouseholdMonthlyOutgoing(Double householdMonthlyOutgoing) {
         this.householdMonthlyOutgoing = householdMonthlyOutgoing;
     }
 
-    public Integer getNetSuplus() {
+    public Double getNetSuplus() {
         return netSuplus;
     }
 
-    public void setNetSuplus(Integer netSuplus) {
+    public void setNetSuplus(Double netSuplus) {
         this.netSuplus = netSuplus;
     }
 
@@ -268,7 +323,8 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
         return educationPersonMostStudied;
     }
 
-    public void setEducationPersonMostStudied(String educationPersonMostStudied) {
+    public void setEducationPersonMostStudied(String
+            educationPersonMostStudied) {
         this.educationPersonMostStudied = educationPersonMostStudied;
     }
 
@@ -312,7 +368,7 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
     public void setFamilyUbication(String familyUbication) {
         this.familyUbication = familyUbication;
     }
-    
+
     public String getFamilyCountry() {
         return familyCountry;
     }
@@ -329,30 +385,92 @@ public class SnapshotEconomicEntity implements StoreableSnapshot {
         this.familyCity = familyCity;
     }
 
-    public SnapshotEconomicEntity surveyDefinition(SurveyEntity definitionEntity) {
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public TermCondPolEntity getTermCond() {
+        return termCond;
+    }
+
+    public void setTermCond(TermCondPolEntity termCond) {
+        this.termCond = termCond;
+    }
+
+    public TermCondPolEntity getPrivPol() {
+        return privPol;
+    }
+
+    public void setPrivPol(TermCondPolEntity privPol) {
+        this.privPol = privPol;
+    }
+
+    public SurveyData getPersonalInformation() {
+        return personalInformation;
+    }
+
+    public void setPersonalInformation(SurveyData personalInformation) {
+        this.personalInformation = personalInformation;
+    }
+
+    public SnapshotEconomicEntity surveyDefinition(
+            SurveyEntity definitionEntity) {
         this.surveyDefinition = definitionEntity;
         return this;
     }
 
-    public SnapshotEconomicEntity surveyIndicator(SnapshotIndicatorEntity indicatorEntity) {
+    public SnapshotEconomicEntity surveyIndicator(
+            SnapshotIndicatorEntity indicatorEntity) {
         this.snapshotIndicator = indicatorEntity;
         return this;
 
     }
 
-    public SnapshotEconomicEntity additionalProperties(SurveyData additionalProperties) {
+    public SnapshotEconomicEntity additionalProperties(
+            SurveyData additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
     }
+    
+    public SnapshotEconomicEntity user(UserEntity user) {
+        this.user = user;
+        return this;
+    }
+    
+    public SnapshotEconomicEntity termCond(TermCondPolEntity termCond) {
+        this.termCond = termCond;
+        return this;
+    }
+    
+    public SnapshotEconomicEntity privPol(TermCondPolEntity privPol) {
+        this.privPol = privPol;
+        return this;
+    }
 
-    public SnapshotEconomicEntity staticProperties(SurveyData economicSurveyData) {
+    public SnapshotEconomicEntity staticProperties(
+            SurveyData economicSurveyData) {
 
-        economicSurveyData.entrySet().stream().forEach((entry) -> {
+        economicSurveyData.entrySet()
+        .stream()
+        .forEach((entry) -> {
             try {
-                PropertyUtils.setProperty(this, entry.getKey(), entry.getValue());
+
+        		Object value = null;
+                if (Double.class.equals(PropertyUtils.
+                	getPropertyType(this, entry.getKey()))){
+                    value = Double.valueOf(entry.getValue().toString());
+                } else {
+                    value = entry.getValue();
+                }
+                PropertyUtils.setProperty(this, entry.getKey(), value);
             } catch (Exception e) {
                 throw new RuntimeException(
-                        "Could not set property '" + entry.getKey() + "' to value '" + entry.getValue() + "'", e);
+                        "Could not set property '" + entry.getKey()
+                        + "' to value '" + entry.getValue() + "'", e);
             }
         });
         return this;

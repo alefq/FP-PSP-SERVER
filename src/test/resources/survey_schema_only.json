@@ -821,56 +821,56 @@
       "default": "AGRICULTURE"
     },
     "householdMonthlyIncome": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Ingrese su ingreso mensual familiar"
       },
       "default": 0
     },
     "salaryIncome": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Ingrese su ingreso mensual por salario"
       },
       "default": 0
     },
     "benefitIncome": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Si recibe algún tipo de beneficio del estado u organización, ingrese el monto"
       },
       "default": 0
     },
     "pensionIncome": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Si recibe ingreso por pensión, ingrese el monto"
       },
       "default": 0
     },
     "savingsIncome": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Ingrese la cantidad que tenga de ahorros"
       },
       "default": 0
     },
     "otherIncome": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Ingrese otros ingresos que tenga"
       },
       "default": 0
     },
     "householdMonthlyOutgoing": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Ingrese los gastos mensuales que tiene en su familia"
       },
       "default": 0
     },
     "netSuplus": {
-      "type": "integer",
+      "type": "number",
       "title": {
         "es": "Ingrese net deficit"
       },

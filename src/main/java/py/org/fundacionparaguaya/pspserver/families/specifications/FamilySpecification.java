@@ -68,7 +68,10 @@ public class FamilySpecification {
                     predicates.add(cb.like(likeName, nameParamQuery));
                 }
                 
+                predicates.add(cb.isTrue(root.get(FamilyEntity_.isActive)));
+                
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+                
             }
         };
     }

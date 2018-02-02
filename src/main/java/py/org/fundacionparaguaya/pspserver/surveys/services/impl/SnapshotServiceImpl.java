@@ -20,6 +20,7 @@ import py.org.fundacionparaguaya.pspserver.families.entities.PersonEntity;
 import py.org.fundacionparaguaya.pspserver.families.mapper.PersonMapper;
 import py.org.fundacionparaguaya.pspserver.families.repositories.FamilyRepository;
 import py.org.fundacionparaguaya.pspserver.families.services.FamilyService;
+import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.NewSnapshot;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.Snapshot;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.SnapshotIndicatorPriority;
@@ -27,11 +28,14 @@ import py.org.fundacionparaguaya.pspserver.surveys.dtos.SnapshotIndicators;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.SurveyData;
 import py.org.fundacionparaguaya.pspserver.surveys.entities.SnapshotEconomicEntity;
 import py.org.fundacionparaguaya.pspserver.surveys.entities.SnapshotIndicatorEntity;
+import py.org.fundacionparaguaya.pspserver.surveys.entities.SnapshotIndicatorPriorityEntity;
 import py.org.fundacionparaguaya.pspserver.surveys.entities.SurveyEntity;
 import py.org.fundacionparaguaya.pspserver.surveys.enums.SurveyStoplightEnum;
 import py.org.fundacionparaguaya.pspserver.surveys.mapper.SnapshotEconomicMapper;
 import py.org.fundacionparaguaya.pspserver.surveys.mapper.SnapshotIndicatorMapper;
 import py.org.fundacionparaguaya.pspserver.surveys.repositories.SnapshotEconomicRepository;
+import py.org.fundacionparaguaya.pspserver.surveys.repositories.SnapshotIndicatorPriorityRepository;
+import py.org.fundacionparaguaya.pspserver.surveys.repositories.SnapshotIndicatorRepository;
 import py.org.fundacionparaguaya.pspserver.surveys.repositories.SurveyRepository;
 import py.org.fundacionparaguaya.pspserver.surveys.services.SnapshotIndicatorPriorityService;
 import py.org.fundacionparaguaya.pspserver.surveys.services.SnapshotService;
@@ -62,6 +66,10 @@ public class SnapshotServiceImpl implements SnapshotService {
     
     private final FamilyRepository familyRepository;
     
+    private final SnapshotIndicatorPriorityRepository snapshotIndicatorPriorityRepository;
+    
+    private final SnapshotIndicatorRepository snapshotIndicatorRepository;
+    
     private final FamilyService familyService;
     
     private static final String INDICATOR_NAME = "name";
@@ -71,7 +79,9 @@ public class SnapshotServiceImpl implements SnapshotService {
     public SnapshotServiceImpl(SnapshotEconomicRepository economicRepository, SnapshotEconomicMapper economicMapper,
             SurveyService surveyService, SurveyRepository surveyRepository, SnapshotIndicatorMapper indicatorMapper,
             SnapshotIndicatorPriorityService priorityService, PersonMapper personMapper,
-            FamilyRepository familyRepository, FamilyService familyService) {
+            FamilyRepository familyRepository, FamilyService familyService,
+            SnapshotIndicatorPriorityRepository snapshotIndicatorPriorityRepository,
+            SnapshotIndicatorRepository snapshotIndicatorRepository) {
         this.economicRepository = economicRepository;
         this.economicMapper = economicMapper;
         this.surveyService = surveyService;
@@ -81,11 +91,15 @@ public class SnapshotServiceImpl implements SnapshotService {
         this.personMapper = personMapper;
         this.familyRepository = familyRepository;
         this.familyService = familyService;
+        this.snapshotIndicatorPriorityRepository = snapshotIndicatorPriorityRepository;
+        this.snapshotIndicatorRepository = snapshotIndicatorRepository;
     }
 
     @Override
     @Transactional
-    public Snapshot addSurveySnapshot(NewSnapshot snapshot) {
+
+    public Snapshot addSurveySnapshot(UserDetailsDTO details, NewSnapshot snapshot) {
+
         checkNotNull(snapshot);
 
         ValidationResults results = surveyService.checkSchemaCompliance(snapshot);
@@ -106,7 +120,7 @@ public class SnapshotServiceImpl implements SnapshotService {
         if (family.isPresent()) {
             snapshotEconomicEntity = saveEconomic(snapshot, indicatorEntity, family.get());
         } else {
-            FamilyEntity newFamily = familyService.createFamilyFromSnapshot(snapshot, code, personEntity);
+            FamilyEntity newFamily = familyService.createFamilyFromSnapshot(details, snapshot, code, personEntity);
             snapshotEconomicEntity = saveEconomic(snapshot, indicatorEntity, newFamily);
         }
 
@@ -118,6 +132,7 @@ public class SnapshotServiceImpl implements SnapshotService {
 
         SnapshotEconomicEntity entity = economicMapper.newSnapshotToEconomicEntity(snapshot, indicator);
         entity.setFamily(family);
+        entity.setPersonalInformation(snapshot.getPersonalSurveyData());
 
         return this.economicRepository.save(entity);
     }
@@ -133,51 +148,69 @@ public class SnapshotServiceImpl implements SnapshotService {
 
         SnapshotIndicators toRet = new SnapshotIndicators();
 
-        SnapshotEconomicEntity originalSnapshot = economicRepository.findOne(snapshotId);
+        SnapshotEconomicEntity originalSnapshot = economicRepository
+                .findOne(snapshotId);
 
-        SurveyEntity survey = surveyRepository.getOne(originalSnapshot.getSurveyDefinition().getId());
-        List<String> indicatorGroup = survey.getSurveyDefinition().getSurveyUISchema().getGroupIndicators();
-
-        List<String> order = survey.getSurveyDefinition().getSurveyUISchema().getUiOrder().stream()
-                .filter(field -> indicatorGroup.contains(field)).collect(Collectors.toList());
+        if (originalSnapshot==null) {
+            return toRet;
+        }
 
         List<SnapshotIndicatorPriority> priorities = priorityService
-                .getSnapshotIndicatorPriorityList(originalSnapshot.getSnapshotIndicator().getId());
-        toRet.setIndicatorsPriorities(priorities);
+                  .getSnapshotIndicatorPriorityList(originalSnapshot.
+                          getSnapshotIndicator().getId());
 
-        SurveyData indicators = indicatorMapper.entityToDto(originalSnapshot.getSnapshotIndicator());
+        toRet.setIndicatorsPriorities(priorities);
+        toRet.setIndicatorsSurveyData(getIndicatorsValue(
+                originalSnapshot, toRet));
+        toRet.setCreatedAt(originalSnapshot.getCreatedAtAsISOString());
+        toRet.setSnapshotIndicatorId(originalSnapshot
+                .getSnapshotIndicator().getId());
+        toRet.setSnapshotEconomicId(originalSnapshot.getId());
+        toRet.setSurveyId(originalSnapshot.getSurveyDefinition().getId());
+
+        //set family for information purpose
+        Long familyId = originalSnapshot.getFamily().getFamilyId();
+        toRet.setFamilyId(familyId);
+        toRet.setFamily(familyService.getFamilyById(familyId));
+
+        return toRet;
+    }
+
+    private String getNameFromCamelCase(String name) {
+        return StringUtils.capitalize(StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(name), " "));
+    }
+
+    private List<SurveyData> getIndicatorsValue(
+            SnapshotEconomicEntity snapshotEconomic, SnapshotIndicators toRet){
+
+        SurveyEntity survey = surveyRepository.getOne(snapshotEconomic
+                .getSurveyDefinition().getId());
+        List<String> indicatorGroup = survey.getSurveyDefinition()
+                .getSurveyUISchema().getGroupIndicators();
+
+        List<String> order = survey.getSurveyDefinition()
+                .getSurveyUISchema().getUiOrder().stream()
+                .filter(field -> indicatorGroup.contains(field))
+                .collect(Collectors.toList());
+
+        SurveyData indicators = indicatorMapper
+                .entityToDto(snapshotEconomic.getSnapshotIndicator());
         List<SurveyData> indicatorsToRet = new ArrayList<>();
-        if (indicatorGroup != null && !indicatorGroup.isEmpty() && order != null && !order.isEmpty()) {
+        if (indicatorGroup != null && !indicatorGroup.isEmpty()
+                && order != null && !order.isEmpty()) {
 
             order.forEach(indicator -> {
                 if (indicators.containsKey(indicator)) {
                     SurveyData sd = new SurveyData();
                     sd.put(INDICATOR_NAME, getNameFromCamelCase(indicator));
                     sd.put(INDICATOR_VALUE, indicators.get(indicator));
-                    
                     countIndicators(toRet, sd.get(INDICATOR_VALUE));
                     indicatorsToRet.add(sd);
                 }
             });
 
         }
-
-        toRet.setIndicatorsSurveyData(indicatorsToRet);
-        toRet.setCreatedAt(originalSnapshot.getCreatedAtAsISOString());
-        toRet.setSnapshotIndicatorId(originalSnapshot.getSnapshotIndicator().getId());
-        toRet.setSnapshotEconomicId(originalSnapshot.getId());
-        toRet.setSurveyId(originalSnapshot.getSurveyDefinition().getId());
-        
-        //set family for information purpose
-        Long familyId = originalSnapshot.getFamily().getFamilyId();
-        toRet.setFamilyId(familyId);
-        toRet.setFamily(familyService.getFamilyById(familyId));
-        
-        return toRet;
-    }
-
-    private String getNameFromCamelCase(String name) {
-        return StringUtils.capitalize(StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(name), " "));
+        return indicatorsToRet;
     }
 
     @Override
@@ -252,6 +285,32 @@ public class SnapshotServiceImpl implements SnapshotService {
 		        }
 			}	
 		);
+	}
+
+	@Override
+	public void deleteSnapshotById(Long snapshotEconomicId) {
+    	SnapshotEconomicEntity snapshotEconomicEntity = economicRepository.
+    	        findOne(snapshotEconomicId);
+
+    	if (snapshotEconomicEntity!=null) {
+
+    	    Long familyId = snapshotEconomicEntity.getFamily().getFamilyId();
+
+            List<SnapshotIndicatorPriorityEntity> priorities =
+                    snapshotIndicatorPriorityRepository
+                    .findBySnapshotIndicatorId(snapshotEconomicEntity
+                            .getSnapshotIndicator().getId());
+
+        	if (priorities!=null && !priorities.isEmpty()) {
+        	    snapshotIndicatorPriorityRepository.delete(priorities);
+        	}
+
+        	economicRepository.delete(snapshotEconomicEntity);
+
+            if (economicRepository.findByFamilyFamilyId(familyId).size() == 0) {
+        	    familyRepository.delete(familyId);
+            }
+    	}
 	}
 
 }

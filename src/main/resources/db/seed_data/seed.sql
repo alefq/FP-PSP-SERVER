@@ -69,73 +69,73 @@ INSERT INTO data_collect.snapshots_properties_attributes(
 -- indicator required and recommended survey properties
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('drinkingWaterAccess', 'drinkingWaterAccess', 'MANDATORY', 'es', 'Usted cuenta con acceso a agua potable?', 'INDICATOR');
+	VALUES ('drinkingWaterAccess', 'drinkingWaterAccess', 'RECOMMENDED', 'es', 'Usted cuenta con acceso a agua potable?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('nearbyHealthPost', 'nearbyHealthPost',  'MANDATORY', 'es', 'Usted cuenta con algún puesto de salud cercano?', 'INDICATOR');
+	VALUES ('nearbyHealthPost', 'nearbyHealthPost',  'RECOMMENDED', 'es', 'Usted cuenta con algún puesto de salud cercano?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('income', 'income',  'MANDATORY', 'es', 'Esto representa su ingreso?', 'INDICATOR');
+	VALUES ('income', 'income',  'RECOMMENDED', 'es', 'Esto representa su ingreso?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('documentation', 'documentation',  'MANDATORY', 'es', 'Ingrese su documentación', 'INDICATOR');
+	VALUES ('documentation', 'documentation',  'RECOMMENDED', 'es', 'Ingrese su documentación', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('alimentation', 'alimentation',  'MANDATORY', 'es', 'Puede alimentarse todos los días?', 'INDICATOR');
+	VALUES ('alimentation', 'alimentation',  'RECOMMENDED', 'es', 'Puede alimentarse todos los días?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('garbageDisposal', 'garbageDisposal', 'MANDATORY', 'es', 'Cuenta con posibilidad de deshacerse de la basura?', 'INDICATOR');
+	VALUES ('garbageDisposal', 'garbageDisposal', 'RECOMMENDED', 'es', 'Cuenta con posibilidad de deshacerse de la basura?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('safeHouse', 'safeHouse', 'MANDATORY', 'es', 'Cuenta con una casa segura?', 'INDICATOR');
+	VALUES ('safeHouse', 'safeHouse', 'RECOMMENDED', 'es', 'Cuenta con una casa segura?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('safeBathroom', 'safeBathroom', 'MANDATORY', 'es', 'Cuenta con baño seguro?', 'INDICATOR');
+	VALUES ('safeBathroom', 'safeBathroom', 'RECOMMENDED', 'es', 'Cuenta con baño seguro?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('electricityAccess', 'electricityAccess', 'MANDATORY', 'es', 'Cuenta con acceso a electricidad?', 'INDICATOR');
+	VALUES ('electricityAccess', 'electricityAccess', 'RECOMMENDED', 'es', 'Cuenta con acceso a electricidad?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('refrigerator', 'refrigerator', 'MANDATORY', 'es', 'Cuenta con una heladera?', 'INDICATOR');
+	VALUES ('refrigerator', 'refrigerator', 'RECOMMENDED', 'es', 'Cuenta con una heladera?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('separateBed', 'separateBed', 'MANDATORY', 'es', 'Cuenta con una cama separada?', 'INDICATOR');
+	VALUES ('separateBed', 'separateBed', 'RECOMMENDED', 'es', 'Cuenta con una cama separada?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('separateBedrooms', 'separateBedrooms', 'MANDATORY', 'es', 'Cuenta con cuartos separados?', 'INDICATOR');
+	VALUES ('separateBedrooms', 'separateBedrooms', 'RECOMMENDED', 'es', 'Cuenta con cuartos separados?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('properKitchen', 'properKitchen', 'MANDATORY', 'es', 'Cuenta con cuartos separados?', 'INDICATOR');
+	VALUES ('properKitchen', 'properKitchen', 'RECOMMENDED', 'es', 'Cuenta con cuartos separados?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('phone', 'phone', 'MANDATORY', 'es', 'Ingrese su número de teléfono', 'INDICATOR');
+	VALUES ('phone', 'phone', 'RECOMMENDED', 'es', 'Ingrese su número de teléfono', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('security', 'security', 'MANDATORY', 'es', 'Cuenta con una casa segura?', 'INDICATOR');
+	VALUES ('security', 'security', 'RECOMMENDED', 'es', 'Cuenta con una casa segura?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('readAndWrite', 'readAndWrite', 'MANDATORY', 'es', 'Puede leer y escribir?', 'INDICATOR');
+	VALUES ('readAndWrite', 'readAndWrite', 'RECOMMENDED', 'es', 'Puede leer y escribir?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('middleEducation', 'middleEducation', 'MANDATORY', 'es', 'Tuvo acceso a educación media?', 'INDICATOR');
+	VALUES ('middleEducation', 'middleEducation', 'RECOMMENDED', 'es', 'Tuvo acceso a educación media?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('socialCapital', 'socialCapital', 'MANDATORY', 'es', 'Cuenta con capital social?', 'INDICATOR');
+	VALUES ('socialCapital', 'socialCapital', 'RECOMMENDED', 'es', 'Cuenta con capital social?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('informationAccess', 'informationAccess', 'MANDATORY', 'es', 'Ingrese información de acceso', 'INDICATOR');
+	VALUES ('informationAccess', 'informationAccess', 'RECOMMENDED', 'es', 'Ingrese información de acceso', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('influenceInPublicSector', 'influenceInPublicSector', 'MANDATORY', 'es', 'Tiene influencia en el sector público?', 'INDICATOR');
+	VALUES ('influenceInPublicSector', 'influenceInPublicSector', 'RECOMMENDED', 'es', 'Tiene influencia en el sector público?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('awarenessOfNeeds', 'awarenessOfNeeds', 'MANDATORY', 'es', 'Tiene consciencia de sus necesidades?', 'INDICATOR');
+	VALUES ('awarenessOfNeeds', 'awarenessOfNeeds', 'RECOMMENDED', 'es', 'Tiene consciencia de sus necesidades?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('selfEsteem', 'selfEsteem', 'MANDATORY', 'es', 'Nivel de autoestima?', 'INDICATOR');
+	VALUES ('selfEsteem', 'selfEsteem', 'RECOMMENDED', 'es', 'Nivel de autoestima?', 'INDICATOR');
 INSERT INTO data_collect.snapshots_properties_attributes(
 	property_system_name, property_schema_name, stoplight_type, lang, title, stoplight_group)
-	VALUES ('autonomyDecisions', 'autonomyDecisions', 'MANDATORY', 'es', 'Puede tomar decisiones de forma autónoma?', 'INDICATOR');
+	VALUES ('autonomyDecisions', 'autonomyDecisions', 'RECOMMENDED', 'es', 'Puede tomar decisiones de forma autónoma?', 'INDICATOR');
 
 
 -- personal information required and recommended survey properties

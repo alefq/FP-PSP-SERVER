@@ -13,5 +13,6 @@ import py.org.fundacionparaguaya.pspserver.surveys.entities.SnapshotEconomicEnti
 public interface SnapshotEconomicRepository extends JpaRepository<SnapshotEconomicEntity, Long> {
     Collection<SnapshotEconomicEntity> findBySurveyDefinitionId(Long surveyId);
     Optional<SnapshotEconomicEntity> findFirstByFamilyFamilyIdOrderByCreatedAtDesc(Long familyId);
-    List<SnapshotEconomicEntity> findByFamilyFamilyId(Long familiyId);
+    List<SnapshotEconomicEntity> findByFamilyFamilyId(Long familyId);
+    SnapshotEconomicEntity findTopByFamilyFamilyIdOrderByIdDesc(Long familyID);
 }

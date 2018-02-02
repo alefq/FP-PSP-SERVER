@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import py.org.fundacionparaguaya.pspserver.families.dtos.FamilyDTO;
 import py.org.fundacionparaguaya.pspserver.families.dtos.PersonDTO;
-import py.org.fundacionparaguaya.pspserver.families.services.FamilyMapService;
+import py.org.fundacionparaguaya.pspserver.families.services.FamilySnapshotsManager;
 import py.org.fundacionparaguaya.pspserver.families.services.FamilyService;
 import py.org.fundacionparaguaya.pspserver.network.dtos.ApplicationDTO;
 import py.org.fundacionparaguaya.pspserver.network.dtos.OrganizationDTO;
@@ -50,7 +50,7 @@ public class FamilyControllerTest {
 	FamilyService familyService;
 	
 	@MockBean
-	FamilyMapService familyMapService;
+	FamilySnapshotsManager familyMapService;
 
 	@Autowired
 	private MockMvc mockMvc;

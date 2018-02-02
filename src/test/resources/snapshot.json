@@ -56,5 +56,8 @@
     "autonomyDecisions": "blue"
   },
   "survey_id": 0,
-  "snapshot_economic_id": 0
+  "snapshot_economic_id": 0,
+  "user_id": 0,
+  "term_cond_id": 0,
+  "priv_pol_id": 0
 }

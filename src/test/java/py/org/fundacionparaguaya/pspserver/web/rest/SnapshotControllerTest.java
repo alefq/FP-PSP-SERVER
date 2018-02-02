@@ -42,6 +42,9 @@ public class SnapshotControllerTest {
 
     private static final Long SURVEY_ID = 1L;
     private static final Long SNAPSHOT_ID = 2L;
+    private static final Long USER_ID = 3L;
+    private static final Long TERM_COND_ID = 4L;
+    private static final Long PRIV_POL_ID = 5L;
     private static final String SNAPSHOT_JSON_FILE = "/snapshot.json";
 
     @Autowired
@@ -72,7 +75,7 @@ public class SnapshotControllerTest {
     public void shouldPostToCreateSnapshot() throws Exception {
         Snapshot snapshot = getSnapshot();
 
-        when(service.addSurveySnapshot(anyObject())).thenReturn(snapshot);
+        when(service.addSurveySnapshot(anyObject(), anyObject())).thenReturn(snapshot);
 
         String content = TestHelper.mapToJson(snapshot);
         this.mockMvc.perform(
@@ -97,6 +100,9 @@ public class SnapshotControllerTest {
         return new Snapshot()
                 .surveyId(SURVEY_ID)
                 .snapshotEconomicId(SNAPSHOT_ID)
+                .userId(USER_ID)
+                .termCondId(TERM_COND_ID)
+                .privPolId(PRIV_POL_ID)
                 .personalSurveyData(snapshot.getPersonalSurveyData())
                 .economicSurveyData(snapshot.getEconomicSurveyData())
                 .indicatorSurveyData(snapshot.getIndicatorSurveyData());
@@ -114,7 +120,13 @@ public class SnapshotControllerTest {
             fieldWithPath("indicator_survey_data").type(JsonFieldType.OBJECT)
                     .description("Key/value pairs representing the filled out 'Indicators' section of the survey"),
             fieldWithPath("created_at").type(JsonFieldType.NULL)
-                    .description("ISO 8601 formatted creation date")
+                    .description("ISO 8601 formatted creation date"),
+            fieldWithPath("user_id").type(JsonFieldType.NUMBER)
+                    .description("The user's id"),
+            fieldWithPath("term_cond_id").type(JsonFieldType.NUMBER)
+                    .description("The terms and conditions id"),
+            fieldWithPath("priv_pol_id").type(JsonFieldType.NUMBER)
+                    .description("The privacy polities id")
     };
     FieldDescriptor[] snapshotsDescriptor = new FieldDescriptor[]{
             fieldWithPath("[].survey_id").type(JsonFieldType.NUMBER)
@@ -128,7 +140,13 @@ public class SnapshotControllerTest {
             fieldWithPath("[].indicator_survey_data").type(JsonFieldType.OBJECT)
                     .description("Key/value pairs representing the filled out 'Indicators' section of the survey"),
             fieldWithPath("[].created_at").type(JsonFieldType.NULL)
-                    .description("ISO 8601 formatted creation date")
+                    .description("ISO 8601 formatted creation date"),
+            fieldWithPath("[].user_id").type(JsonFieldType.NUMBER)
+                    .description("The user's id"),
+            fieldWithPath("[].term_cond_id").type(JsonFieldType.NUMBER)
+                    .description("The terms and conditions id"),
+            fieldWithPath("[].priv_pol_id").type(JsonFieldType.NUMBER)
+                    .description("The privacy polities id")
     };
 
 }
