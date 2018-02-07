@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.springframework.data.jpa.domain.Specifications.where;
 import static py.org.fundacionparaguaya.pspserver.network.specifications.OrganizationSpecification.byFilter;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import py.org.fundacionparaguaya.pspserver.common.exceptions.UnknownResourceException;
+import py.org.fundacionparaguaya.pspserver.common.pagination.PaginableList;
+import py.org.fundacionparaguaya.pspserver.common.pagination.PspPageRequest;
 import py.org.fundacionparaguaya.pspserver.families.dtos.FamilyFilterDTO;
 import py.org.fundacionparaguaya.pspserver.families.services.FamilyService;
 import py.org.fundacionparaguaya.pspserver.network.dtos.ApplicationDTO;
@@ -27,114 +30,136 @@ import py.org.fundacionparaguaya.pspserver.network.repositories.OrganizationRepo
 import py.org.fundacionparaguaya.pspserver.network.services.OrganizationService;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 
-
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 
-	 private Logger LOG = LoggerFactory.getLogger(OrganizationServiceImpl.class);
+  private static final Logger LOG = LoggerFactory
+      .getLogger(OrganizationServiceImpl.class);
 
-	 private final OrganizationRepository organizationRepository;
-	
-	 private final OrganizationMapper organizationMapper;
-	 
-	 private final FamilyService familyService;
-	 
-	 public OrganizationServiceImpl(OrganizationRepository organizationRepository, OrganizationMapper organizationMapper, FamilyService familyService) {
-		this.organizationRepository = organizationRepository;
-		this.organizationMapper = organizationMapper;
-		this.familyService = familyService;
-	}
+  private final OrganizationRepository organizationRepository;
 
-	@Override
-	public OrganizationDTO updateOrganization(Long organizationId, OrganizationDTO organizationDTO) {
-		checkArgument(organizationId > 0, "Argument was %s but expected nonnegative", organizationId);
+  private final OrganizationMapper organizationMapper;
 
-		return Optional.ofNullable(organizationRepository.findOne(organizationId))
-                .map(organization -> {
-                	organization.setName(organizationDTO.getName());
-                    organization.setDescription(organizationDTO.getDescription());
-					LOG.debug("Changed Information for Organization: {}", organization);
-					return organizationRepository.save(organization);
-			    })
-                .map(organizationMapper::entityToDto)
-                .orElseThrow(() -> new UnknownResourceException("Organization does not exist"));
-	}
+  private final FamilyService familyService;
 
-	@Override
-	public OrganizationDTO addOrganization(OrganizationDTO organizationDTO) {
-		OrganizationEntity organization = new OrganizationEntity();
-		BeanUtils.copyProperties(organizationDTO, organization);
-		OrganizationEntity newOrganization= organizationRepository.save(organization);
-		return organizationMapper.entityToDto(newOrganization);
-	}
+  public OrganizationServiceImpl(OrganizationRepository organizationRepository,
+      OrganizationMapper organizationMapper, FamilyService familyService) {
+    this.organizationRepository = organizationRepository;
+    this.organizationMapper = organizationMapper;
+    this.familyService = familyService;
+  }
 
-	@Override
-	public OrganizationDTO getOrganizationById(Long organizationId) {
-		checkArgument(organizationId > 0, "Argument was %s but expected nonnegative", organizationId);
+  @Override
+  public OrganizationDTO updateOrganization(Long organizationId,
+      OrganizationDTO organizationDto) {
+    checkArgument(organizationId > 0,
+        "Argument was %s but expected nonnegative", organizationId);
 
-        return Optional.ofNullable(organizationRepository.findOne(organizationId))
-                .map(organizationMapper::entityToDto)
-                .orElseThrow(() -> new UnknownResourceException("Organization does not exist"));
-	}
+    return Optional.ofNullable(organizationRepository.findOne(organizationId))
+        .map(organization -> {
+          organization.setName(organizationDto.getName());
+          organization.setDescription(organizationDto.getDescription());
+          LOG.debug("Changed Information for Organization: {}", organization);
+          return organizationRepository.save(organization);
+        }).map(organizationMapper::entityToDto).orElseThrow(
+            () -> new UnknownResourceException("Organization does not exist"));
+  }
 
-	@Override
-	public List<OrganizationDTO> getAllOrganizations() {
-		List<OrganizationEntity> organizations = organizationRepository.findAll();
-		return organizationMapper.entityListToDtoList(organizations);
-	}
+  @Override
+  public OrganizationDTO addOrganization(OrganizationDTO organizationDto) {
+    OrganizationEntity organization = new OrganizationEntity();
+    BeanUtils.copyProperties(organizationDto, organization);
+    OrganizationEntity newOrganization = organizationRepository
+        .save(organization);
+    return organizationMapper.entityToDto(newOrganization);
+  }
 
-	@Override
-	public void deleteOrganization(Long organizationId) {
-		checkArgument(organizationId > 0, "Argument was %s but expected nonnegative", organizationId);
+  @Override
+  public OrganizationDTO getOrganizationById(Long organizationId) {
+    checkArgument(organizationId > 0,
+        "Argument was %s but expected nonnegative", organizationId);
 
-        Optional.ofNullable(organizationRepository.findOne(organizationId))
-                .ifPresent(organization -> {
-                	organizationRepository.delete(organization);
-                    LOG.debug("Deleted Organization: {}", organization);
-                });
-		
-	}
+    return Optional.ofNullable(organizationRepository.findOne(organizationId))
+        .map(organizationMapper::entityToDto).orElseThrow(
+            () -> new UnknownResourceException("Organization does not exist"));
+  }
 
-	@Override
-	public Page<OrganizationDTO> listOrganizations(PageRequest pageRequest, UserDetailsDTO userDetails) {
-		Long applicationId = Optional.ofNullable(userDetails.getApplication())
-				.orElse(new ApplicationDTO()).getId();
-		
-		Long organizationId = Optional.ofNullable(userDetails.getOrganization())
-				.orElse(new OrganizationDTO()).getId();
-		
-        Page<OrganizationEntity> pageResponse = organizationRepository
-                .findAll(where(byFilter(applicationId, organizationId)), pageRequest);
-		
-		if (pageResponse != null) {
-			return pageResponse.map(new Converter<OrganizationEntity, OrganizationDTO>() {
-			    @Override
-				public OrganizationDTO convert(OrganizationEntity source) {
-			    	return organizationMapper.entityToDto(source);
-				}
-			});
-		}
-		
-		return null;
-	}
-	
-	@Override
-    public OrganizationDTO getOrganizationDashboard(Long organizationId, UserDetailsDTO details) {
-	    OrganizationDTO dto = new OrganizationDTO();
-        
-        if(details.getOrganization() != null && details.getOrganization().getId() != null) {
-            dto = getOrganizationById(details.getOrganization().getId());
-        }else if(organizationId != null){
-            dto = getOrganizationById(organizationId);
-        }
-        
-        Long applicationId = Optional.ofNullable(details.getApplication())
-                .orElse(new ApplicationDTO()).getId();
-	    
-	    FamilyFilterDTO filter = new FamilyFilterDTO(applicationId, dto.getId());	    
-	    dto.setDashboard(DashboardDTO.of(familyService.countFamiliesByFilter(filter)));
-	    
-	    return dto;
-	}
+  @Override
+  public List<OrganizationDTO> getAllOrganizations() {
+    List<OrganizationEntity> organizations = organizationRepository.findAll();
+    return organizationMapper.entityListToDtoList(organizations);
+  }
+
+  @Override
+  public void deleteOrganization(Long organizationId) {
+    checkArgument(organizationId > 0,
+        "Argument was %s but expected nonnegative", organizationId);
+
+    Optional.ofNullable(organizationRepository.findOne(organizationId))
+        .ifPresent(organization -> {
+          organizationRepository.delete(organization);
+          LOG.debug("Deleted Organization: {}", organization);
+        });
+
+  }
+
+  @Override
+  public PaginableList<OrganizationDTO> listOrganizations(Long applicationId,
+      Long organizationId, int page, int perPage, String orderBy,
+      String sortBy) {
+
+    PaginableList<OrganizationDTO> response;
+
+    PageRequest pageRequest = new PspPageRequest(page, perPage, orderBy,
+        sortBy);
+
+    Page<OrganizationEntity> pageResponse = organizationRepository
+        .findAll(where(byFilter(applicationId, organizationId)), pageRequest);
+
+    if (pageResponse == null) {
+      return new PaginableList<>(Collections.emptyList());
+    } else {
+      Page<OrganizationDTO> organizationPage = pageResponse
+          .map(new Converter<OrganizationEntity, OrganizationDTO>() {
+            @Override
+            public OrganizationDTO convert(OrganizationEntity source) {
+              return organizationMapper.entityToDto(source);
+            }
+          });
+
+      response = new PaginableList<OrganizationDTO>(organizationPage,
+          organizationPage.getContent());
+    }
+
+    return response;
+
+  }
+
+  @Override
+  public OrganizationDTO getOrganizationDashboard(Long organizationId,
+      UserDetailsDTO details) {
+    OrganizationDTO dto = getUserOrganization(details, organizationId);
+
+    Long applicationId = Optional.ofNullable(details.getApplication())
+        .orElse(new ApplicationDTO()).getId();
+
+    FamilyFilterDTO filter = new FamilyFilterDTO(applicationId, dto.getId());
+    dto.setDashboard(
+        DashboardDTO.of(familyService.countFamiliesByFilter(filter)));
+
+    return dto;
+  }
+
+  @Override
+  public OrganizationDTO getUserOrganization(UserDetailsDTO details,
+      Long organizationId) {
+    if (details.getOrganization() != null
+        && details.getOrganization().getId() != null) {
+      return getOrganizationById(details.getOrganization().getId());
+    } else if (organizationId != null) {
+      return getOrganizationById(organizationId);
+    }
+    return null;
+  }
 
 }

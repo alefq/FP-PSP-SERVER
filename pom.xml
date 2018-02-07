@@ -267,7 +267,8 @@
 				<configuration>
 					<!-- optional configuration -->
 				</configuration>
-        	</plugin>
+       		</plugin>
+
 
 		</plugins>
 

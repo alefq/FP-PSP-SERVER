@@ -2,26 +2,31 @@ package py.org.fundacionparaguaya.pspserver.network.services;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
+import py.org.fundacionparaguaya.pspserver.common.pagination.PaginableList;
 import py.org.fundacionparaguaya.pspserver.network.dtos.OrganizationDTO;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 
-public interface OrganizationService{
+public interface OrganizationService {
 
-	OrganizationDTO updateOrganization(Long organizationId, OrganizationDTO organizationDTO);
+  OrganizationDTO updateOrganization(Long organizationId,
+            OrganizationDTO organizationDto);
 
-	OrganizationDTO addOrganization(OrganizationDTO organizationDTO);
-	
-	OrganizationDTO getOrganizationById(Long organizationId);
-	
-	List<OrganizationDTO> getAllOrganizations();
-	
-	void deleteOrganization(Long organizationId);
+  OrganizationDTO addOrganization(OrganizationDTO organizationDto);
 
-	Page<OrganizationDTO> listOrganizations(PageRequest pageRequest, UserDetailsDTO userDetails);
+  OrganizationDTO getOrganizationById(Long organizationId);
 
-    OrganizationDTO getOrganizationDashboard(Long organizationId, UserDetailsDTO details);	
+  List<OrganizationDTO> getAllOrganizations();
+
+  void deleteOrganization(Long organizationId);
+
+  PaginableList<OrganizationDTO> listOrganizations(Long applicationId,
+            Long organizationId, int page, int perPage, String orderBy,
+            String sortBy);
+
+  OrganizationDTO getOrganizationDashboard(Long organizationId,
+            UserDetailsDTO details);
+
+  OrganizationDTO getUserOrganization(UserDetailsDTO details,
+            Long organizationId);
 
 }
