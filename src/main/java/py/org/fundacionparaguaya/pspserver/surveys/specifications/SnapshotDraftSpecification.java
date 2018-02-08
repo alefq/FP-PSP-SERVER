@@ -1,6 +1,8 @@
 package py.org.fundacionparaguaya.pspserver.surveys.specifications;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,26 +25,23 @@ public class SnapshotDraftSpecification {
 
     private static final String ID_ATTRIBUTE = "id";
 
-    private static final long SNAPSHOT_DRAFT_MAX_DAY = 8;
-
-
     private SnapshotDraftSpecification() {}
+
 
     public static Specification<SnapshotDraftEntity> userEquals(Long userId) {
         return new Specification<SnapshotDraftEntity>() {
             @Override
             public Predicate toPredicate(Root<SnapshotDraftEntity> root,
-                            CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-                    Join<SnapshotDraftEntity, UserEntity> joinUser = root
-                                    .join(SnapshotDraftEntity_.getUser());
-                    Expression<Long> byUserId = joinUser
-                                    .<Long>get(ID_ATTRIBUTE);
+                Join<SnapshotDraftEntity, UserEntity> joinUser = root
+                        .join(SnapshotDraftEntity_.getUser());
+                Expression<Long> byUserId = joinUser.<Long>get(ID_ATTRIBUTE);
 
-                    return cb.equal(byUserId, userId);
+                return cb.equal(byUserId, userId);
 
-                };
-          };
+            };
+        };
     }
 
     public static Specification<SnapshotDraftEntity> likeFamilyName(
@@ -50,34 +49,45 @@ public class SnapshotDraftSpecification {
         return new Specification<SnapshotDraftEntity>() {
             @Override
             public Predicate toPredicate(Root<SnapshotDraftEntity> root,
-                            CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<Predicate>();
 
-                return cb.or(cb.like(
-                       cb.upper(root.<String>get(
-                           SnapshotDraftEntity_.getPersonFirstName())),
-                           "%" + familyName.trim().toUpperCase()
-                           + "%"), cb.like(cb.upper(root
-                           .<String>get(SnapshotDraftEntity_.
-                                   getPersonLastName())),
-                           "%" + familyName.trim().toUpperCase() + "%"));
-                };
-          };
+                if (familyName != null) {
+
+                    predicates.add(cb.or(cb.like(
+                            cb.upper(root.<String>get(
+                                    SnapshotDraftEntity_.getPersonFirstName())),
+                            "%" + familyName.trim().toUpperCase() + "%"),
+                            cb.like(cb.upper(root.<String>get(
+                                    SnapshotDraftEntity_.getPersonLastName())),
+                                    "%" + familyName.trim().toUpperCase()
+                                            + "%")));
+                }
+
+                return cb.and(
+                        predicates.toArray(new Predicate[predicates.size()]));
+            };
+        };
     }
 
-    public static Specification<SnapshotDraftEntity> createdAtLess8Days() {
+    public static Specification<SnapshotDraftEntity> createdAtLessDays(
+            long days) {
         return new Specification<SnapshotDraftEntity>() {
             @Override
             public Predicate toPredicate(Root<SnapshotDraftEntity> root,
-                            CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    CriteriaQuery<?> query, CriteriaBuilder cb) {
 
                 LocalDateTime limit = LocalDateTime.now();
-                limit = limit.minusDays(SNAPSHOT_DRAFT_MAX_DAY);
+                limit = limit.minusDays(days);
 
-                return cb.and(cb.greaterThan(root.<LocalDateTime>get(
-                        SnapshotDraftEntity_.getCreatedAt()), limit));
+                return cb
+                        .and(cb.greaterThan(
+                                root.<LocalDateTime>get(
+                                        SnapshotDraftEntity_.getCreatedAt()),
+                                limit));
 
-                };
-          };
+            };
+        };
     }
 
 }
