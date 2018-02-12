@@ -33,6 +33,8 @@ public class UserEntity extends BaseEntity {
 	
 	private boolean active;
 
+	private String email;
+	
 	public Long getId() {
 		return id;
 	}
@@ -41,11 +43,9 @@ public class UserEntity extends BaseEntity {
 		this.id = id;
 	}
 
-
 	public String getUsername() {
 		return username;
 	}
-
 
 	public void setUsername(String username) {
 		this.username = username;
@@ -67,8 +67,14 @@ public class UserEntity extends BaseEntity {
 		this.active = active;
 	}
 
+	public String getEmail() {
+		return email;
+	}
 
-	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,6 +97,7 @@ public class UserEntity extends BaseEntity {
 				.add("username", username)
 				.add("pass", pass)
 				.add("active", active)
+				.add("email", email)
 				.toString();
 	}
 }

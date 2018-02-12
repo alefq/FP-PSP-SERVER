@@ -6,100 +6,115 @@ import javax.validation.constraints.NotNull;
 
 public class UserDTO {
 
-	private Long userId;
+    private Long userId;
 
-	@NotNull
-	private String username;
+    @NotNull
+    private String username;
 
-	@NotNull
-	private String pass;
-	
-	private boolean active;
+    @NotNull
+    private String pass;
 
-	public UserDTO(){}
+    private boolean active;
 
-	private UserDTO(Long userId, String username, String pass, boolean active) {
-		this.userId = userId;
-		this.username = username;
-		this.pass = pass;
-		this.active = active;
-	}
+    private String email;
 
-	public static class Builder {
-		private Long userId;
-		private String username;
-		private String pass;
-		private boolean active;
+    public UserDTO() {
+    }
 
-		public Builder userId(Long userId) {
-			this.userId = userId;
-			return this;
-		}
+    private UserDTO(Long userId, String username, String pass, boolean active,
+            String email) {
+        this.userId = userId;
+        this.username = username;
+        this.pass = pass;
+        this.active = active;
+        this.email = email;
+    }
 
-		public Builder username(String username) {
-			this.username = username;
-			return this;
-		}
+    public static class Builder {
+        private Long userId;
+        private String username;
+        private String pass;
+        private boolean active;
+        private String email;
 
-		public Builder pass(String pass) {
-			this.pass = pass;
-			return this;
-		}
+        public Builder userId(Long userId) {
+            this.userId = userId;
+            return this;
+        }
 
-		public Builder active(boolean active) {
-			this.active = active;
-			return this;
-		}
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
 
-		public UserDTO build() {
-			return new UserDTO(userId, username, pass, active);
-		}
-	}
+        public Builder pass(String pass) {
+            this.pass = pass;
+            return this;
+        }
 
-	public static Builder builder() {
-		return new Builder();
-	}
+        public Builder active(boolean active) {
+            this.active = active;
+            return this;
+        }
 
-	public Long getUserId() {
-		return userId;
-	}
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
 
-	public String getUsername() {
-		return username;
-	}
+        public UserDTO build() {
+            return new UserDTO(userId, username, pass, active, email);
+        }
+    }
 
-	public String getPass() {
-		return pass;
-	}
+    public static Builder builder() {
+        return new Builder();
+    }
 
+    public Long getUserId() {
+        return userId;
+    }
 
-	public boolean isActive() {
-		return active;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public String getPass() {
+        return pass;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public boolean isActive() {
+        return active;
+    }
 
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("userId", userId)
-				.add("username", username)
-				.add("pass", pass)
-				.add("active", active)
-				.toString();
-	}
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("userId", userId)
+                .add("username", username).add("pass", pass)
+                .add("active", active).add("email", email).toString();
+    }
 }
