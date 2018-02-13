@@ -5,6 +5,7 @@ The PSP-server used a Maven-based build system and liquibase for the database ev
 
 * Maven 3.3.3 or above
 * Java 8
+* PostgreSQL 9.4 or above
 
 ## Basic setup
 
@@ -64,6 +65,8 @@ java -jar target/*.war --spring.profiles.active=dev
 And that is it ;), your server will be launched by default at http://localhost:8080.
 
 ## What's next?
+
+- Do you want to set up your AWS Credentials?  [Read the AWS CONFIG instructions.](AWS_CONFIG.md)
 
 - Do you want to make changes to the database using Liquibase?  [Read the Liquibase instructions.](LIQUIBASE.md)
 

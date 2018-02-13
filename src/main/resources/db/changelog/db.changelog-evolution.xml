@@ -41,8 +41,8 @@
     <!--
     It changes the name of the 'is_direct' table from the schema 'ps_network' to 'is_organization'
     -->
-	<changeSet id="2017-09-22T12:00" author="nvaldez">
-	    <sqlFile path="sql/2017-09-22T12:00.sql" relativeToChangelogFile="true"/>
+    <changeSet id="2017-09-22T12:00" author="nvaldez">
+        <sqlFile path="sql/2017-09-22T12:00.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
     <!--
@@ -59,14 +59,14 @@
         <sqlFile path="sql/2017-09-26T12:00.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-	<!--
+    <!--
     Creates the OAuth tables
      -->
      <changeSet id="2017-10-05T11:49" author="mcespedes">
         <sqlFile path="sql/2017-10-05T11:49.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-	<!--
+    <!--
      Insert user and client credentials for oauth2 authentication
      -->
      <changeSet id="2017-10-26T22:00" author="mcespedes">
@@ -138,7 +138,7 @@
         <sqlFile path="sql/2017-11-27T15:00.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-	<!--
+    <!--
      Creates snapshot_indicator_priority datatable
     -->
     <changeSet id="2017-12-01T11:20" author="mgonzalez">
@@ -187,7 +187,7 @@
         <sqlFile path="sql/2017-12-19T10:10.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-	  <!-- Insert cities in the cities table -->
+    <!-- Insert cities in the cities table -->
     <changeSet id="2017-12-27T16:50" author="mgonzalez">
         <sqlFile path="sql/2017-12-27T16:50.sql" relativeToChangelogFile="true"/>
     </changeSet>
@@ -195,6 +195,11 @@
     <!-- Fixes FK to countries in organizations -->
     <changeSet id="2017-12-28T16:00" author="rvillalba">
         <sqlFile path="sql/2017-12-28T16:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add column logo_url into organizations table-->
+    <changeSet id="2017-12-29T16:30" author="cbenitez">
+        <sqlFile path="sql/2017-12-29T16:30.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
     <!-- Change data type for income columns-->
@@ -205,7 +210,7 @@
     <!-- Add enabled column in family table -->
     <changeSet id="2018-01-06T09:13" author="mcespedes">
         <sqlFile path="sql/2018-01-06T09:13.sql" relativeToChangelogFile="true"/>
-	</changeSet>
+    </changeSet>
 
     <!-- Create termcondpol table and add relationships into snapshots_economic table -->
     <changeSet id="2018-01-08T09:00" author="mgonzalez">
@@ -226,13 +231,20 @@
     <changeSet id="2018-01-18T11:30" author="mgonzalez">
         <sqlFile path="sql/2018-01-18T11:30.sql" relativeToChangelogFile="true"/>
     </changeSet>
+
     <!-- Add email column into security.user table and create security.password_reset_token table " -->
     <changeSet id="2018-01-22T11:31" author="mcespedes">
         <sqlFile path="sql/2018-01-22T11:31.sql" relativeToChangelogFile="true"/>
     </changeSet>
+
     <!-- Delete innecesaries columns in "snapshot_draft" table -->
     <changeSet id="2018-01-29T17:00" author="mgonzalez">
         <sqlFile path="sql/2018-01-29T17:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Change columns to NOT NULL in organizations table-->
+    <changeSet id="2018-01-30T11:20" author="cbenitez">
+        <sqlFile path="sql/2018-01-30T11:20.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
 </databaseChangeLog>

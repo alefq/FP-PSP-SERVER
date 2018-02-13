@@ -11,6 +11,8 @@ import py.org.fundacionparaguaya.pspserver.network.entities.ApplicationEntity;
 public interface ApplicationRepository
         extends JpaRepository<ApplicationEntity, Long> {
 
-  Page<ApplicationEntity> findAllByIsHub(boolean isHub, Pageable page);
+    ApplicationEntity findById(Long id);
+
+    Page<ApplicationEntity> findAllByIsHub(boolean isHub, Pageable page);
 
 }

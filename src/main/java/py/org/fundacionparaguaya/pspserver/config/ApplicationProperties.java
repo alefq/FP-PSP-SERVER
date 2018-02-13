@@ -7,6 +7,56 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("application")
 public class ApplicationProperties {
 
+    private Aws aws = new Aws();
+
+    public Aws getAws() {
+        return this.aws;
+    }
+
+    public void setAws(Aws aws) {
+        this.aws = aws;
+    }
+
+    public static class Aws {
+        private String strRegion;
+        private String bucketName;
+
+        private String orgsImageDirectory;
+        private String orgsImageNamePrefix;
+
+        public String getStrRegion() {
+            return strRegion;
+        }
+
+        public void setStrRegion(String strRegion) {
+            this.strRegion = strRegion;
+        }
+
+        public String getBucketName() {
+            return bucketName;
+        }
+
+        public void setBucketName(String bucketName) {
+            this.bucketName = bucketName;
+        }
+
+        public String getOrgsImageDirectory() {
+            return orgsImageDirectory;
+        }
+
+        public void setOrgsImageDirectory(String orgsImageDirectory) {
+            this.orgsImageDirectory = orgsImageDirectory;
+        }
+
+        public String getOrgsImageNamePrefix() {
+            return orgsImageNamePrefix;
+        }
+
+        public void setOrgsImageNamePrefix(String orgsImageNamePrefix) {
+            this.orgsImageNamePrefix = orgsImageNamePrefix;
+        }
+    }
+
     private Client client = new Client();
 
     private Templates templates = new Templates();
@@ -75,5 +125,4 @@ public class ApplicationProperties {
         }
 
     }
-
 }
