@@ -13,6 +13,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import py.org.fundacionparaguaya.pspserver.common.exceptions.UnknownResourceException;
 import py.org.fundacionparaguaya.pspserver.common.pagination.PaginableList;
 import py.org.fundacionparaguaya.pspserver.common.pagination.PspPageRequest;
@@ -26,6 +27,7 @@ import py.org.fundacionparaguaya.pspserver.network.mapper.ApplicationMapper;
 import py.org.fundacionparaguaya.pspserver.network.repositories.ApplicationRepository;
 import py.org.fundacionparaguaya.pspserver.network.services.ApplicationService;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
+import py.org.fundacionparaguaya.pspserver.surveys.services.SnapshotService;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -39,21 +41,27 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final FamilyService familyService;
 
+    private final SnapshotService snapshotService;
+
     public ApplicationServiceImpl(ApplicationRepository applicationRepository,
-            ApplicationMapper applicationMapper, FamilyService familyService) {
+            ApplicationMapper applicationMapper, FamilyService familyService,
+            SnapshotService snapshotService) {
         this.applicationRepository = applicationRepository;
         this.applicationMapper = applicationMapper;
         this.familyService = familyService;
+        this.snapshotService = snapshotService;
     }
 
     @Override
     public ApplicationDTO updateApplication(Long applicationId,
             ApplicationDTO applicationDto) {
+
         checkArgument(applicationId > 0,
                 "Argument was %s but expected nonnegative", applicationId);
 
         return Optional.ofNullable(applicationRepository.findOne(applicationId))
                 .map(application -> {
+
                     BeanUtils.copyProperties(applicationDto, application);
                     LOG.debug("Changed Information for Application: {}",
                             application);
@@ -64,9 +72,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public ApplicationDTO addApplication(ApplicationDTO applicationDto) {
+    public ApplicationDTO addApplication(ApplicationDTO applicationDTO) {
         ApplicationEntity application = new ApplicationEntity();
-        BeanUtils.copyProperties(applicationDto, application);
+        BeanUtils.copyProperties(applicationDTO, application);
         ApplicationEntity newApplication = applicationRepository
                 .save(application);
         return applicationMapper.entityToDto(newApplication);
@@ -113,10 +121,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         FamilyFilterDTO filter = new FamilyFilterDTO(dto.getId(),
                 organizationId);
 
-        dto.setDashboard(
-                DashboardDTO.of(familyService.countFamiliesByFilter(filter)));
+        DashboardDTO dashboard = DashboardDTO.of(
+                familyService.countFamiliesByFilter(filter), null, null, null,
+                snapshotService.countSnapshotTaken(filter));
+
+        dto.setDashboard(dashboard);
 
         return dto;
+
     }
 
     private ApplicationDTO getUserApplication(UserDetailsDTO details,

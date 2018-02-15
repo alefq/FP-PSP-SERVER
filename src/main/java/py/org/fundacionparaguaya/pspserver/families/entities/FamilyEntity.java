@@ -180,13 +180,13 @@ public class FamilyEntity extends BaseEntity {
 				.add("familyId", familyId)
 				.add("name", name)
 				.add("code", code)
-				.add("country", country.toString())
-				.add("city", city.toString())
+				.add("country", country)
+				.add("city", city)
 				.add("locationType", locationType)
 				.add("locationPositionGps", locationPositionGps)
-				.add("person", person.toString())
-				.add("application", application.toString())
-				.add("organization", organization.toString())
+				.add("person", person)
+				.add("application", application)
+				.add("organization", organization)
 				.add("isActive", isActive)
 				.toString();
 	}

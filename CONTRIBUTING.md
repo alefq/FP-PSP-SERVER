@@ -32,7 +32,7 @@ If any of those plugins throws any errors you will have to fix them manually and
 ## Coding Conventions
 
 * Line length no longer than 120 chars
-* Tabs and no spaces
+* 4 spaces tabs
 * No empty line at the end of files
 
 We use checkstyle to include standard Java coding conventions

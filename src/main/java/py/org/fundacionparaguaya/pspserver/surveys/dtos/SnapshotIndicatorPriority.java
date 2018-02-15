@@ -1,15 +1,19 @@
 package py.org.fundacionparaguaya.pspserver.surveys.dtos;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 
+ *
  * @author mgonzalez
  *
  */
-public class SnapshotIndicatorPriority {
+public class SnapshotIndicatorPriority implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("snapshot_indicator_priority_id")
     private Long id;
@@ -88,7 +92,8 @@ public class SnapshotIndicatorPriority {
         return this;
     }
 
-    public SnapshotIndicatorPriority snapshotIndicatorId(Long snapshotIndicatorId) {
+    public SnapshotIndicatorPriority snapshotIndicatorId(
+            Long snapshotIndicatorId) {
         this.snapshotIndicatorId = snapshotIndicatorId;
         return this;
     }
@@ -117,13 +122,16 @@ public class SnapshotIndicatorPriority {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class Indicator Priority {\n");
-        sb.append("    snapshotIndicatorPriorityId: ").append(toIndentedString(id))
+        sb.append("    snapshotIndicatorPriorityId: ")
+                .append(toIndentedString(id)).append("\n");
+        sb.append("    snapshotIndicatorId: ")
+                .append(toIndentedString(snapshotIndicatorId)).append("\n");
+        sb.append("    indicator: ").append(toIndentedString(indicator))
                 .append("\n");
-        sb.append("    snapshotIndicatorId: ").append(toIndentedString(snapshotIndicatorId)).append("\n");
-        sb.append("    indicator: ").append(toIndentedString(indicator)).append("\n");
         sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
         sb.append("    action: ").append(toIndentedString(action)).append("\n");
-        sb.append("    estimatedDate: ").append(toIndentedString(estimatedDate)).append("\n");
+        sb.append("    estimatedDate: ").append(toIndentedString(estimatedDate))
+                .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -137,24 +145,31 @@ public class SnapshotIndicatorPriority {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
 
         SnapshotIndicatorPriority that = (SnapshotIndicatorPriority) o;
 
         return com.google.common.base.Objects.equal(this.id, that.id)
-                && com.google.common.base.Objects.equal(this.snapshotIndicatorId, that.snapshotIndicatorId)
-                && com.google.common.base.Objects.equal(this.indicator, that.indicator)
-                && com.google.common.base.Objects.equal(this.reason, that.reason)
-                && com.google.common.base.Objects.equal(this.action, that.action)
-                && com.google.common.base.Objects.equal(this.estimatedDate, that.estimatedDate);
+                && com.google.common.base.Objects.equal(
+                        this.snapshotIndicatorId, that.snapshotIndicatorId)
+                && com.google.common.base.Objects.equal(this.indicator,
+                        that.indicator)
+                && com.google.common.base.Objects.equal(this.reason,
+                        that.reason)
+                && com.google.common.base.Objects.equal(this.action,
+                        that.action)
+                && com.google.common.base.Objects.equal(this.estimatedDate,
+                        that.estimatedDate);
     }
 
     @Override
     public int hashCode() {
-        return com.google.common.base.Objects.hashCode(id, snapshotIndicatorId, indicator,
-                reason, action, estimatedDate);
+        return com.google.common.base.Objects.hashCode(id, snapshotIndicatorId,
+                indicator, reason, action, estimatedDate);
     }
 }

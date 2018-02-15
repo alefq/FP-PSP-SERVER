@@ -26,13 +26,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-
 @RestController
 @RequestMapping(value = "/api/v1/organizations")
 public class OrganizationController {
 
-    private static final Logger LOG =
-            LoggerFactory.getLogger(OrganizationController.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(OrganizationController.class);
 
     private OrganizationService organizationService;
 
@@ -44,10 +43,10 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDTO> addOrganization(
             @Valid @RequestBody OrganizationDTO organizationDTO)
             throws URISyntaxException, IOException {
-        OrganizationDTO result =
-                organizationService.addOrganization(organizationDTO);
-        return ResponseEntity.created(
-                new URI("/api/v1/organizations/" + result.getId()))
+        OrganizationDTO result = organizationService
+                .addOrganization(organizationDTO);
+        return ResponseEntity
+                .created(new URI("/api/v1/organizations/" + result.getId()))
                 .body(result);
     }
 
@@ -60,58 +59,48 @@ public class OrganizationController {
         return ResponseEntity.ok(result);
     }
 
-
     @GetMapping("/{organizationId}")
     public ResponseEntity<OrganizationDTO> getOrganizationById(
             @PathVariable("organizationId") Long organizationId) {
-        OrganizationDTO dto =
-                organizationService.getOrganizationById(organizationId);
+        OrganizationDTO dto = organizationService
+                .getOrganizationById(organizationId);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping()
     public ResponseEntity<PaginableList<OrganizationDTO>> getAllOrganizations(
-            @RequestParam
-                    (value = "page", required = false, defaultValue = "1")
-                    int page,
-            @RequestParam
-                    (value = "per_page", required = false, defaultValue = "12")
-                    int perPage,
-            @RequestParam
-                    (value = "sort_by", required = false, defaultValue = "name")
-                    String sortBy,
-            @RequestParam
-                    (value = "order", required = false, defaultValue = "asc")
-                    String orderBy,
+            @RequestParam(value = "page", required = false,
+            defaultValue = "1") int page,
+            @RequestParam(value = "per_page", required = false,
+            defaultValue = "12") int perPage,
+            @RequestParam(value = "sort_by", required = false,
+            defaultValue = "name") String sortBy,
+            @RequestParam(value = "order", required = false,
+            defaultValue = "asc") String orderBy,
             @AuthenticationPrincipal UserDetailsDTO details) {
-        PageRequest pageRequest =
-                new PspPageRequest(page, perPage, orderBy, sortBy);
-        Page<OrganizationDTO> pageProperties =
-                organizationService.listOrganizations(pageRequest, details);
-        PaginableList<OrganizationDTO> response =
-                new PaginableList<>(pageProperties,
-                        pageProperties.getContent());
+        PageRequest pageRequest = new PspPageRequest(page, perPage, orderBy,
+                sortBy);
+        Page<OrganizationDTO> pageProperties = organizationService
+                .listOrganizations(pageRequest, details);
+        PaginableList<OrganizationDTO> response = new PaginableList<>(
+                pageProperties, pageProperties.getContent());
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/application")
     public ResponseEntity<PaginableList<OrganizationDTO>> getAllOrganizations(
-            @RequestParam
-                    (value = "page", required = false, defaultValue = "1")
-                    int page,
-            @RequestParam
-                    (value = "per_page", required = false, defaultValue = "12")
-                    int perPage,
-            @RequestParam
-                    (value = "sort_by", required = false, defaultValue = "name")
-                    String sortBy,
-            @RequestParam
-                    (value = "order", required = false, defaultValue = "asc")
-                    String orderBy,
+            @RequestParam(value = "page", required = false,
+            defaultValue = "1") int page,
+            @RequestParam(value = "per_page", required = false,
+            defaultValue = "12") int perPage,
+            @RequestParam(value = "sort_by", required = false,
+            defaultValue = "name") String sortBy,
+            @RequestParam(value = "order", required = false,
+            defaultValue = "asc") String orderBy,
             @RequestParam(value = "applicationId", required = true)
-                    Long applicationId,
+            Long applicationId,
             @RequestParam(value = "organizationId", required = false)
-                    Long organizationId) {
+            Long organizationId) {
 
         return ResponseEntity.ok(organizationService.listOrganizations(
                 applicationId, organizationId, page, perPage, orderBy, sortBy));
@@ -128,10 +117,11 @@ public class OrganizationController {
     @GetMapping("/dashboard")
     public ResponseEntity<OrganizationDTO> getApplicationDashboard(
             @RequestParam(value = "organizationId", required = false)
-                    Long organizationId,
+            Long organizationId,
             @AuthenticationPrincipal UserDetailsDTO details) {
         OrganizationDTO dto = organizationService
                 .getOrganizationDashboard(organizationId, details);
         return ResponseEntity.ok(dto);
     }
+
 }
