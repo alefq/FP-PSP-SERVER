@@ -247,4 +247,9 @@
         <sqlFile path="sql/2018-01-30T11:20.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <!-- Add created_at column in survey table-->
+    <changeSet id="2018-02-14T13:00" author="mcespedes">
+        <sqlFile path="sql/2018-02-14T13:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>

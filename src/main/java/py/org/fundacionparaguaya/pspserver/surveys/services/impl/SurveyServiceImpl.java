@@ -37,7 +37,7 @@ public class SurveyServiceImpl implements SurveyService {
     private final SurveyMapper mapper;
 
     public SurveyServiceImpl(SurveyRepository repo, PropertyAttributeSupport propertyAttributeSupport,
-            SurveyMapper mapper) {
+                             SurveyMapper mapper) {
         this.repo = repo;
         this.propertyAttributeSupport = propertyAttributeSupport;
         this.mapper = mapper;
@@ -67,9 +67,9 @@ public class SurveyServiceImpl implements SurveyService {
 
         propertyAttributeSupport.getPropertyAttributes().stream()
                 .filter(attr -> attr.getStoptLightType() == StopLightType.MANDATORY).forEach(attr -> {
-                    results.addAll(schemaValidator.apply(surveyDefinition.getSurveySchema(),
-                            attr.getPropertySchemaName(), null));
-                });
+            results.addAll(schemaValidator.apply(surveyDefinition.getSurveySchema(),
+                    attr.getPropertySchemaName(), null));
+        });
 
 
         return results;
