@@ -63,6 +63,7 @@ public class SnapshotEconomicMapper implements
     public Snapshot entityToDto(SnapshotEconomicEntity entity) {
         return new Snapshot()
                 .snapshotEconomicId(entity.getId())
+                .snapshotIndicatorId(entity.getSnapshotIndicator().getId())
                 .surveyId(entity.getSurveyDefinition().getId())
                 .createdAt(entity.getCreatedAtAsISOString())
                 .economicSurveyData(getAllProperties(entity,

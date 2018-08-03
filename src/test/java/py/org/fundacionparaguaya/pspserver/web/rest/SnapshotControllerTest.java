@@ -108,7 +108,8 @@ public class SnapshotControllerTest {
                 .privPolId(PRIV_POL_ID)
                 .personalSurveyData(snapshot.getPersonalSurveyData())
                 .economicSurveyData(snapshot.getEconomicSurveyData())
-                .indicatorSurveyData(snapshot.getIndicatorSurveyData());
+                .indicatorSurveyData(snapshot.getIndicatorSurveyData())
+                .snapshotIndicatorId(snapshot.getSnapshotIndicatorId());
     }
 
     FieldDescriptor[] snapshotDescriptor = new FieldDescriptor[]{
@@ -116,6 +117,8 @@ public class SnapshotControllerTest {
                     .description("The survey's id that this snapshot belongs to"),
             fieldWithPath("snapshot_economic_id").type(JsonFieldType.NUMBER)
                     .description("The id that this snapshot belongs to"),
+            fieldWithPath("snapshot_indicator_id").type(JsonFieldType.NUMBER)
+                    .description("Reference to the id of the indicator table"),
             fieldWithPath("personal_survey_data").type(JsonFieldType.OBJECT)
                     .description("Key/value pairs representing the filled out 'Personal Information' section of the survey"),
             fieldWithPath("economic_survey_data").type(JsonFieldType.OBJECT)
@@ -140,6 +143,8 @@ public class SnapshotControllerTest {
                     .description("The survey's id that this snapshot belongs to"),
             fieldWithPath("[].snapshot_economic_id").type(JsonFieldType.NUMBER)
                     .description("The id that this snapshot belongs to"),
+            fieldWithPath("[].snapshot_indicator_id").type(JsonFieldType.NUMBER)
+                    .description("Reference to the id of the indicator table"),
             fieldWithPath("[].personal_survey_data").type(JsonFieldType.OBJECT)
                     .description("Key/value pairs representing the filled out 'Personal Information' section of the survey"),
             fieldWithPath("[].economic_survey_data").type(JsonFieldType.OBJECT)

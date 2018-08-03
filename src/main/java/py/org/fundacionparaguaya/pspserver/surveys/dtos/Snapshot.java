@@ -43,6 +43,9 @@ public class Snapshot {
     @JsonProperty("priv_pol_id")
     private Long privPolId = null;
 
+    @JsonProperty("snapshot_indicator_id")
+    private Long snapshotIndicatorId= null;
+
     public Snapshot personalSurveyData(SurveyData surveyData) {
         this.personalSurveyData = surveyData;
         return this;
@@ -267,6 +270,11 @@ public class Snapshot {
         return this;
     }
 
+    public Snapshot snapshotIndicatorId(Long snapshotIndicatorId){
+        this.snapshotIndicatorId = snapshotIndicatorId;
+        return this;
+    }
+
     public Snapshot createdAt(String createdAtAsISOString) {
         this.createdAt = createdAtAsISOString;
         return this;
@@ -297,4 +305,11 @@ public class Snapshot {
         return this;
     }
 
+    public Long getSnapshotIndicatorId() {
+        return snapshotIndicatorId;
+    }
+
+    public void setSnapshotIndicatorId(Long snapshotIndicatorId) {
+        this.snapshotIndicatorId = snapshotIndicatorId;
+    }
 }
