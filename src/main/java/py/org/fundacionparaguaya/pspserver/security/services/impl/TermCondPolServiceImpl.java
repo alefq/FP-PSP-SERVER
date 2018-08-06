@@ -51,7 +51,7 @@ public class TermCondPolServiceImpl implements TermCondPolService {
         checkArgument(applicationId != null,
                 "Argument was %s but expected not null", applicationId);
 
-        return repository.findDistinctLocaleAndTypeCodByApplicationId(applicationId).stream()
+        return repository.findDistinctOnLocaleAndTypeCodByApplicationId(applicationId).stream()
                 .map(mapper::entityToDto)
                 .collect(Collectors.toList());
     }
