@@ -20,5 +20,5 @@ public interface FamilyRepository extends JpaRepository<FamilyEntity, Long>, Jpa
 
     List<FamilyEntity> findByOrganizationId(Long organizationId);
 
-    List<FamilyEntity> findDistinctByUserId(Long userId);
+    List<FamilyEntity> findDistinctByUserIdAndIsActiveIsTrue(Long userId);
 }
