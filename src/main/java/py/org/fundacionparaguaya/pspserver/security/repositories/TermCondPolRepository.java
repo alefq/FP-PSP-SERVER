@@ -13,9 +13,11 @@ import py.org.fundacionparaguaya.pspserver.security.entities.TermCondPolEntity;
 public interface TermCondPolRepository extends
     JpaRepository<TermCondPolEntity, Long> {
     TermCondPolEntity findFirstByTypeCodAndApplicationIdAndLocaleOrderByIdDesc(
-            TermCondPolType type, Long applicationId, TermCondPolLocale locale);    
+            TermCondPolType type, Long applicationId, TermCondPolLocale locale);
 
-    @Query(value = "SELECT DISTINCT ON (t.locale, t.type_cod) * FROM security.termcondpol t WHERE t.id_application = :appId ORDER BY t.locale, t.type_cod, t.created_date DESC",
+    @Query(value = "SELECT DISTINCT ON (t.locale, t.type_cod) * FROM security.termcondpol t " +
+            "WHERE t.id_application = :appId " +
+            "ORDER BY t.locale, t.type_cod, t.created_date DESC",
            nativeQuery = true)
     List<TermCondPolEntity> findDistinctOnLocaleAndTypeCodByApplicationId(@Param("appId") Long applicationId);
 }
