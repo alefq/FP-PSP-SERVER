@@ -65,6 +65,9 @@ public class SnapshotIndicatorPriorityEntity implements Serializable {
     @Column(name="is_attainment")
     private Boolean isAttainment;
 
+    @Column(name="json_key")
+    private String jsonKey;
+
     @ManyToOne(targetEntity = SnapshotIndicatorEntity.class)
     @JoinColumn(name = "snapshot_indicator")
     private SnapshotIndicatorEntity snapshotIndicator;
@@ -107,6 +110,14 @@ public class SnapshotIndicatorPriorityEntity implements Serializable {
 
     public void setEstimatedDate(LocalDate estimatedDate) {
         this.estimatedDate = estimatedDate;
+    }
+
+    public String getJsonKey() {
+        return jsonKey;
+    }
+
+    public void setJsonKey(String jsonKey) {
+        this.jsonKey = jsonKey;
     }
 
     public SnapshotIndicatorEntity getSnapshotIndicator() {

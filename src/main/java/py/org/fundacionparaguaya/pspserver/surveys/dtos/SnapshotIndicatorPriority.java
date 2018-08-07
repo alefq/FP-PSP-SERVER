@@ -36,6 +36,9 @@ public class SnapshotIndicatorPriority implements Serializable {
     @JsonProperty("is_attainment")
     private Boolean isAttainment;
 
+    @JsonProperty("json_key")
+    private String jsonKey;
+
     @ApiModelProperty(value = "Snapshot Indicator Priority's id")
     public Long getId() {
         return id;
@@ -90,6 +93,15 @@ public class SnapshotIndicatorPriority implements Serializable {
         this.estimatedDate = estimatedDate;
     }
 
+    @ApiModelProperty(value = "Value of the Json Key")
+    public String getJsonKey() {
+        return jsonKey;
+    }
+
+    public void setJsonKey(String jsonKey) {
+        this.jsonKey = jsonKey;
+    }
+
     public SnapshotIndicatorPriority id(Long id) {
         this.id = id;
         return this;
@@ -121,6 +133,11 @@ public class SnapshotIndicatorPriority implements Serializable {
         return this;
     }
 
+    public SnapshotIndicatorPriority jsonKey(String jsonKey) {
+        this.jsonKey = jsonKey;
+        return this;
+    }
+
     public Boolean getIsAttainment() {
         return isAttainment;
     }
@@ -144,6 +161,8 @@ public class SnapshotIndicatorPriority implements Serializable {
         sb.append("    estimatedDate: ").append(toIndentedString(estimatedDate))
                 .append("\n");
         sb.append("    isAttainment: ").append(toIndentedString(isAttainment))
+                .append("\n");
+        sb.append(" jsonKey: ").append(toIndentedString(jsonKey))
                 .append("\n");
         sb.append("}");
         return sb.toString();
@@ -179,12 +198,13 @@ public class SnapshotIndicatorPriority implements Serializable {
                 && com.google.common.base.Objects.equal(this.estimatedDate,
                         that.estimatedDate)
                 && com.google.common.base.Objects.equal(this.isAttainment,
-                        that.isAttainment);
+                        that.isAttainment)
+                && com.google.common.base.Objects.equal(this.jsonKey, that.jsonKey);
     }
 
     @Override
     public int hashCode() {
         return com.google.common.base.Objects.hashCode(id, snapshotIndicatorId,
-                indicator, reason, action, estimatedDate, isAttainment);
+                indicator, reason, action, estimatedDate, isAttainment, jsonKey);
     }
 }

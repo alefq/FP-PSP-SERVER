@@ -399,4 +399,9 @@
         <sqlFile path="sql/2018-07-26T11:30.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <!-- Added a column for the json key in snapshot_indicator_priorities -->
+    <changeSet id="2018-08-07T10:00" author="nvaldez">
+        <sqlFile path="sql/2018-08-07T10:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>

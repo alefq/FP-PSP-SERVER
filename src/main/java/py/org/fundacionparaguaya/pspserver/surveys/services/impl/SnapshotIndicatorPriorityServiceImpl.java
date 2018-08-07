@@ -118,6 +118,7 @@ public class SnapshotIndicatorPriorityServiceImpl
         entity.setIndicator(priority.getIndicator());
         entity.setIsAttainment(priority.getIsAttainment());
         entity.setEstimatedDateAsISOString(priority.getEstimatedDate());
+        entity.setJsonKey(priority.getJsonKey());
 
         SnapshotIndicatorEntity indicator = snapshotIndicatorRepository
                 .getOne(priority.getSnapshotIndicatorId());
