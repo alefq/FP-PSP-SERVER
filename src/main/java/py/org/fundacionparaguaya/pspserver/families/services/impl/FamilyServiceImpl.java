@@ -280,8 +280,8 @@ public class FamilyServiceImpl implements FamilyService {
     public List<FamilyDTO> listDistinctFamiliesByUser(UserDetailsDTO details, String name) {
 
         List<FamilyEntity> families = familyRepository
-                .findDistinctByUserIdAndIsActiveIsTrue(userRepo.findOneByUsername(details.getUsername()).get().getId()).stream()
-                .filter(s -> StringUtils.containsIgnoreCase(s.getName(), name)
+                .findDistinctByUserIdAndIsActiveIsTrue(userRepo.findOneByUsername(details.getUsername())
+                        .get().getId()).stream().filter(s -> StringUtils.containsIgnoreCase(s.getName(), name)
                         || StringUtils.containsIgnoreCase(s.getCode(), name))
                 .distinct().collect(Collectors.toList());
 
