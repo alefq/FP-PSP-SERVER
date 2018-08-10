@@ -15,8 +15,4 @@ out.txt
 .vscode
 .gradle
 .factorypath
-lambda/creds*.json
-lambda/node_modules
 **/*.zip
-lambda/.env**
-lambda/curl*.sh

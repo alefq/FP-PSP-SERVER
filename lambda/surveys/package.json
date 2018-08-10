@@ -1,15 +1,15 @@
 {
-  "name": "jcard_test",
+  "name": "getSurveyLambda",
   "version": "1.0.0",
-  "description": "scripts de prueba para invocar a jcard",
-  "main": "app.js",
+  "description": "lambda function to get survey",
+  "main": "index.js",
   "scripts": {
-    "build": "zip -r getSnapshots.zip .",
+    "build": "zip -r getSurvey.zip .",
     "test": "source .env && node test.js",
     "test:demo": "source .env.demo && node test.js",
     "test:testing": "source .env.testing && node test.js"
   },
-  "author": "danicricco",
+  "author": "rvillalba",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",

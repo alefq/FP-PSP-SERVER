@@ -1,0 +1,5 @@
+creds*.json
+node_modules
+.env**
+curl*.sh
+*_test.sh

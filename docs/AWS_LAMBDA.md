@@ -31,3 +31,15 @@ Example:
 ```
 curl --header "x-api-key: [YOUR_API_KEY]" https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta/snapshots/11?security=2&registeredToVoteAndVotesInElections=2
 ```
+
+## /surveys/{surveyId}
+
+Description: Gets the survey definition from a provided survey id
+
+```
+curl --header "x-api-key: [YOUR_API_KEY]" https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta/surveys/1
+```
+
+**Path parameters**
+
+_surveyId_: the id of the survey
