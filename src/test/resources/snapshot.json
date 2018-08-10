@@ -2,15 +2,10 @@
   "personal_survey_data":{
   	"firstName":"Juan",
   	"lastName":"Perez",
-  	"identificationType":"CI",
-  	"identificationNumber":"1234567",
-  	"gender":"M",
   	"birthdate":"1980-12-09",
-  	"countryOfBirth":"PY",
-  	"phoneNumber":"021555555"
+  	"countryOfBirth":"PY"
   },
   "economic_survey_data": {
-    "familyCity":"Asunción",
     "currency": "guaranies",
     "activityMain": "worker",
     "activitySecondary": "mechanic",

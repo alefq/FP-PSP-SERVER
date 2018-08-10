@@ -199,7 +199,8 @@ public class SnapshotServiceImpl implements SnapshotService {
     @Override
     @Transactional
     public Snapshot addSurveySnapshot(UserDetailsDTO details, NewSnapshot snapshot) {
-        checkNotNull(snapshot);
+        checkNotNull(snapshot, "Snapshot parameter is null");
+        checkNotNull(details, "UserDetails parameter is null");
 
         ValidationResults results = surveyService.checkSchemaCompliance(snapshot);
 

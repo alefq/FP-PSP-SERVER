@@ -1,6 +1,7 @@
 package py.org.fundacionparaguaya.pspserver.common.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -34,4 +35,13 @@ public class FieldErrorDTO implements Serializable {
         return messages;
     }
 
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("objectName", objectName)
+                .add("field", field)
+                .add("messages", messages)
+                .toString();
+    }
 }

@@ -62,6 +62,19 @@ Start the server:
 java -jar target/*.war --spring.profiles.active=dev
 ```
 
+### Integration Tests
+
+To run the integration tests:
+
+```shell
+./scripts/run_it.sh
+```
+
+We use Docker for the integration tests, so it should be installed in the environment where the tests are run.
+
+A great resource to install docker on Ubuntu can be found [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) 
+
+
 And that is it ;), your server will be launched by default at http://localhost:8080.
 
 ## What's next?

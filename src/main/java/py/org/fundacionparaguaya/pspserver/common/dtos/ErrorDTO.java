@@ -1,10 +1,15 @@
 package py.org.fundacionparaguaya.pspserver.common.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.base.MoreObjects;
 import org.springframework.validation.FieldError;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 
 
@@ -91,6 +96,15 @@ public class ErrorDTO implements Serializable {
         return new ErrorDTO(this.getErrorId(), formattedMessge, this.getDeveloperMessage());
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("errorId", errorId)
+                .add("developerMessage", developerMessage)
+                .add("message", message)
+                .add("fieldErrors", fieldErrors)
+                .toString();
+    }
 
 
     /**
@@ -108,4 +122,6 @@ public class ErrorDTO implements Serializable {
         }
 
     }
+
+
 }
