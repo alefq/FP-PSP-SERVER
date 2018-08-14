@@ -2,6 +2,7 @@ package py.org.fundacionparaguaya.pspserver.security.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import py.org.fundacionparaguaya.pspserver.security.constants.TermCondPolLocale;
 import py.org.fundacionparaguaya.pspserver.security.constants.TermCondPolType;
 
 public class TermCondPolDTO {
@@ -23,16 +24,24 @@ public class TermCondPolDTO {
     @JsonProperty("type_cod")
     private TermCondPolType typeCod;
 
+    @JsonProperty("id_application")
+    private Long applicationId;
+
+    @JsonProperty("locale")
+    private TermCondPolLocale locale;
+
     public TermCondPolDTO(){}
 
-    private TermCondPolDTO(Long id, String html, String version,
-        Integer year, String createdDate, TermCondPolType type) {
+    private TermCondPolDTO(Long id, String html, String version, Integer year, String createdDate,
+            TermCondPolType type, Long applicationId, TermCondPolLocale locale){
         this.id = id;
         this.html = html;
         this.version = version;
         this.year = year;
         this.createdDate = createdDate;
         this.typeCod = type;
+        this.applicationId = applicationId;
+        this.locale = locale;
     }
 
     public Long getId() {
@@ -83,6 +92,22 @@ public class TermCondPolDTO {
         this.typeCod = type;
     }
 
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public TermCondPolLocale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(TermCondPolLocale locale) {
+        this.locale = locale;
+    }
+
     public static class Builder {
 
         private Long id;
@@ -91,6 +116,8 @@ public class TermCondPolDTO {
         private Integer year;
         private String createdDate;
         private TermCondPolType typeCod;
+        private Long applicationId;
+        private TermCondPolLocale locale;
 
         public Builder id(Long id) {
             this.id = id;
@@ -122,9 +149,18 @@ public class TermCondPolDTO {
             return this;
         }
 
+        public Builder applicationId(Long applicationId) {
+            this.applicationId = applicationId;
+            return this;
+        }
+
+        public Builder locale(TermCondPolLocale locale) {
+            this.locale = locale;
+            return this;
+        }
+
         public TermCondPolDTO build() {
-            return new TermCondPolDTO(id, html,
-                version, year, createdDate, typeCod);
+            return new TermCondPolDTO(id, html, version, year, createdDate, typeCod, applicationId, locale);
         }
     }
 

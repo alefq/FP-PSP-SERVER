@@ -39,7 +39,7 @@
     </changeSet>
 
     <!--
-    It changes the name of the 'is_direct' table from the schema 'ps_network' to 'is_organization'
+    It changes the code of the 'is_direct' table from the schema 'ps_network' to 'is_organization'
     -->
     <changeSet id="2017-09-22T12:00" author="nvaldez">
         <sqlFile path="sql/2017-09-22T12:00.sql" relativeToChangelogFile="true"/>
@@ -247,9 +247,156 @@
         <sqlFile path="sql/2018-01-30T11:20.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <!-- Insert default email to default users -->
+    <changeSet id="2018-01-30T15:30" author="cbenitez">
+        <sqlFile path="sql/2018-01-30T15:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Change columns to NOT NULL in users table -->
+    <changeSet id="2018-01-30T15:40" author="cbenitez">
+        <sqlFile path="sql/2018-01-30T15:40.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add column logo_url into application table-->
+    <changeSet id="2018-02-02T11:30" author="cbenitez">
+        <sqlFile path="sql/2018-02-02T11:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
     <!-- Add created_at column in survey table-->
     <changeSet id="2018-02-14T13:00" author="mcespedes">
         <sqlFile path="sql/2018-02-14T13:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="2018-02-27T16:17" author="mgonzalez">
+        <sqlFile path="sql/2018-02-27T16:17.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+
+    <!-- Add is_success column in indicator snapshot_indicator_priorities table-->
+    <changeSet id="2018-02-20T11:30" author="jferreira">
+        <sqlFile path="sql/2018-02-20T11:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+
+     <!-- Create survey organization table-->
+    <changeSet id="2018-02-20T09:15" author="mcespedes">
+        <sqlFile path="sql/2018-02-20T09:15.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add unique constraint in snapshot_indicator_priorities table-->
+    <changeSet id="2018-03-06T09:10" author="jferreira">
+        <sqlFile path="sql/2018-03-06T09:10.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!--Add last_modified_at column to surveys and families table-->
+    <changeSet id="2018-03-13T15:00" author="rvillalba">
+        <sqlFile path="sql/2018-03-13T15:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!--Delete unnecessary  users, applications and organizations-->
+    <changeSet id="2018-03-23T11:02" author="mgonzalez">
+        <sqlFile path="sql/2018-03-23T11:02.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!--Add logo_url column to family table-->
+    <changeSet id="2018-03-22T09:00" author="pjlopez">
+        <sqlFile path="sql/2018-03-22T09:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+
+    <!-- Add column to save the user in family-->
+    <changeSet id="2018-04-13T15:30" author="jferreira">
+        <sqlFile path="sql/2018-04-13T15:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add column email to Person table-->
+    <changeSet id="2018-04-10T09:00" author="cbenitez">
+        <sqlFile path="sql/2018-04-10T09:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add value column to parameter-->
+    <changeSet id="2018-04-19T14:50" author="mcespedes">
+        <sqlFile path="sql/2018-04-19T14:50.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!--change gender column to character varying in order to get a better acronym representation for gender-->
+    <changeSet id="2018-05-04T15:00" author="pjlopez">
+        <sqlFile path="sql/2018-05-04T15:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Delete unused columns is_partner, is_hub -->
+    <changeSet id="2018-05-04T17:00" author="cbenitez">
+        <sqlFile path="sql/2018-05-04T17:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Set columns length for applications and organizations tables -->
+    <changeSet id="2018-05-08T09:30" author="cbenitez">
+        <sqlFile path="sql/2018-05-08T09:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add column 'language' with default value 'ENG' -->
+    <changeSet id="2018-05-12T15:00" author="nvaldez">
+        <sqlFile path="sql/2018-05-12T15:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Insert "Terms and Condition" and "Privacy policy" in spanish -->
+    <changeSet id="2018-05-12T15:30" author="nvaldez">
+        <sqlFile path="sql/2018-05-12T15:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!--Create activity feed table-->
+    <changeSet id="2018-03-19T17:30" author="bsandoval">
+        <sqlFile path="sql/2018-03-19T17:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add column post_code to Person table-->
+    <changeSet id="2018-05-25T10:30" author="cbenitez">
+        <sqlFile path="sql/2018-05-25T10:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add column id_application in TermCondPol table and drops language column-->
+    <changeSet id="2018-05-30T17:00" author="nvaldez">
+        <sqlFile path="sql/2018-05-30T17:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Inserts default terms&cond and privacy policy for each hub-->
+    <changeSet id="2018-05-31T10:00" author="nvaldez">
+        <sqlFile path="sql/2018-05-31T10:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    
+    <!--Creates Label table in ps_network schema-->
+    <changeSet id="2018-06-04T16:30" author="nvaldez">
+        <sqlFile path="sql/2018-06-04T16:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!--Creates organizations_labels table in ps_network schema-->
+    <changeSet id="2018-06-06T10:00" author="nvaldez">
+        <sqlFile path="sql/2018-06-06T10:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Drops unused tables -->
+    <changeSet id="2018-07-09T10:30" author="rvillalba">
+        <sqlFile path="sql/2018-07-09T10:30.sql" relativeToChangelogFile="true" />
+    </changeSet>
+  
+    <!-- Add required column 'locale' to TermCondPol with default value 'en_US' -->
+    <changeSet id="2018-07-18T11:00" author="gcarballude">
+        <sqlFile path="sql/2018-07-18T11:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Add support for additional_properties in Person table-->
+    <changeSet id="2018-07-23T11:30" author="cbenitez">
+        <sqlFile path="sql/2018-07-23T11:30.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Added NOT NULL user_id for Snapshot Economics -->
+    <changeSet id="2018-07-24T11:00" author="gcarballude">
+        <sqlFile path="sql/2018-07-24T11:00.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Added a fix for NOT NULL user_id for Snapshot Economics -->
+    <changeSet id="2018-07-26T11:30" author="gcarballude">
+        <sqlFile path="sql/2018-07-26T11:30.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
 </databaseChangeLog>

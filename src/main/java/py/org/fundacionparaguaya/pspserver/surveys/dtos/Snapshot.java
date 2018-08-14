@@ -2,6 +2,8 @@ package py.org.fundacionparaguaya.pspserver.surveys.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import py.org.fundacionparaguaya.pspserver.families.dtos.FamilyDTO;
+import py.org.fundacionparaguaya.pspserver.security.dtos.UserDTO;
 
 /**
  * Created by rodrigovillalba on 10/17/17.
@@ -28,6 +30,12 @@ public class Snapshot {
 
     @JsonProperty("user_id")
     private Long userId = null;
+
+    @JsonProperty("user")
+    private UserDTO user = null;
+
+    @JsonProperty("family")
+    private FamilyDTO family = null;
 
     @JsonProperty("term_cond_id")
     private Long termCondId = null;
@@ -142,6 +150,22 @@ public class Snapshot {
         this.userId = userId;
     }
 
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
+
+    public FamilyDTO getFamily() {
+        return family;
+    }
+
+    public void setFamily(FamilyDTO family) {
+        this.family = family;
+    }
+
     public Long getTermCondId() {
         return termCondId;
     }
@@ -253,6 +277,16 @@ public class Snapshot {
         return this;
     }
     
+    public Snapshot user(UserDTO user) {
+        this.user = user;
+        return this;
+    }
+
+    public Snapshot family(FamilyDTO family) {
+        this.family = family;
+        return this;
+    }
+
     public Snapshot termCondId(Long termCondId) {
         this.termCondId = termCondId;
         return this;

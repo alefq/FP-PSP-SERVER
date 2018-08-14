@@ -9,6 +9,7 @@ import com.google.common.base.MoreObjects;
 
 import py.org.fundacionparaguaya.pspserver.network.dtos.ApplicationDTO;
 import py.org.fundacionparaguaya.pspserver.network.dtos.OrganizationDTO;
+import py.org.fundacionparaguaya.pspserver.security.dtos.UserDTO;
 import py.org.fundacionparaguaya.pspserver.system.dtos.CityDTO;
 import py.org.fundacionparaguaya.pspserver.system.dtos.CountryDTO;
 
@@ -19,10 +20,10 @@ public class FamilyDTO implements Serializable {
 
     private Long familyId;
 
-    @NotNull
+    @NotNull(message = "{familyDTO.name.notNull}")
     private String name;
 
-    @NotNull
+    @NotNull(message = "{familyDTO.code.notNull}")
     private String code;
 
     private CountryDTO country;
@@ -41,15 +42,19 @@ public class FamilyDTO implements Serializable {
 
     private boolean isActive;
 
+    private String imageURL;
+
+    private UserDTO user;
+
     public FamilyDTO() {
     }
 
-  //CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
     private FamilyDTO(Long familyId, String name, String code,
             CountryDTO country, CityDTO city, String locationType,
             String locationPositionGps, PersonDTO person,
             ApplicationDTO application, OrganizationDTO organization,
-            boolean isActive) {
+            UserDTO user, boolean isActive) {
         this.familyId = familyId;
         this.name = name;
         this.code = code;
@@ -60,9 +65,10 @@ public class FamilyDTO implements Serializable {
         this.person = person;
         this.application = application;
         this.organization = organization;
+        this.user = user;
         this.isActive = isActive;
     }
-  //CHECKSTYLE:ON
+    // CHECKSTYLE:ON
 
     public static class Builder {
         private Long familyId;
@@ -75,6 +81,7 @@ public class FamilyDTO implements Serializable {
         private PersonDTO person;
         private ApplicationDTO application;
         private OrganizationDTO organization;
+        private UserDTO user;
         private boolean isActive;
 
         public Builder familyId(Long familyId) {
@@ -127,6 +134,11 @@ public class FamilyDTO implements Serializable {
             return this;
         }
 
+        public Builder user(UserDTO user) {
+            this.user = user;
+            return this;
+        }
+
         public Builder isActive(boolean isActive) {
             this.isActive = isActive;
             return this;
@@ -135,7 +147,7 @@ public class FamilyDTO implements Serializable {
         public FamilyDTO build() {
             return new FamilyDTO(familyId, name, code, country, city,
                     locationType, locationPositionGps, person, application,
-                    organization, isActive);
+                    organization, user, isActive);
         }
     }
 
@@ -211,7 +223,7 @@ public class FamilyDTO implements Serializable {
         return application;
     }
 
-    public void setApplicationId(ApplicationDTO application) {
+    public void setApplication(ApplicationDTO application) {
         this.application = application;
     }
 
@@ -219,8 +231,16 @@ public class FamilyDTO implements Serializable {
         return organization;
     }
 
-    public void setOrganizationId(OrganizationDTO organization) {
+    public void setOrganization(OrganizationDTO organization) {
         this.organization = organization;
+    }
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     public boolean isActive() {
@@ -229,6 +249,14 @@ public class FamilyDTO implements Serializable {
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
@@ -240,6 +268,7 @@ public class FamilyDTO implements Serializable {
                 .add("person", person.toString())
                 .add("application", application.toString())
                 .add("organization", organization.toString())
-                .add("isActive", isActive).toString();
+                .add("user", user.toString()).add("isActive", isActive)
+                .toString();
     }
 }

@@ -59,7 +59,8 @@ public class SnapshotControllerTest {
     @Test
     public void shouldGetAllSnapshotsBySurvey() throws Exception {
         List<Snapshot> snapshots = snapshotList();
-        when(service.find(eq(SURVEY_ID), anyLong())).thenReturn(snapshots);
+        when(service.getSnapshotsByFilters(eq(SURVEY_ID), anyLong(), anyLong(), anyLong(), anyLong(), anyObject()))
+                .thenReturn(snapshots);
 
         this.mockMvc.perform(get("/api/v1/snapshots").param("survey_id", SURVEY_ID.toString()))
                 .andDo(print())
@@ -101,6 +102,8 @@ public class SnapshotControllerTest {
                 .surveyId(SURVEY_ID)
                 .snapshotEconomicId(SNAPSHOT_ID)
                 .userId(USER_ID)
+                .user(snapshot.getUser())
+                .family(snapshot.getFamily())
                 .termCondId(TERM_COND_ID)
                 .privPolId(PRIV_POL_ID)
                 .personalSurveyData(snapshot.getPersonalSurveyData())
@@ -123,6 +126,10 @@ public class SnapshotControllerTest {
                     .description("ISO 8601 formatted creation date"),
             fieldWithPath("user_id").type(JsonFieldType.NUMBER)
                     .description("The user's id"),
+            fieldWithPath("user").type(JsonFieldType.OBJECT)
+                    .description("Key/value pairs representing the user that took the snapshot"),
+            fieldWithPath("family").type(JsonFieldType.OBJECT)
+                    .description("Key/value pairs representing the family of the snapshot"),
             fieldWithPath("term_cond_id").type(JsonFieldType.NUMBER)
                     .description("The terms and conditions id"),
             fieldWithPath("priv_pol_id").type(JsonFieldType.NUMBER)
@@ -143,6 +150,10 @@ public class SnapshotControllerTest {
                     .description("ISO 8601 formatted creation date"),
             fieldWithPath("[].user_id").type(JsonFieldType.NUMBER)
                     .description("The user's id"),
+            fieldWithPath("[].user").type(JsonFieldType.OBJECT)
+                    .description("Key/value pairs representing the user that took the snapshot"),
+            fieldWithPath("[].family").type(JsonFieldType.OBJECT)
+                    .description("Key/value pairs representing the family of the snapshot"),
             fieldWithPath("[].term_cond_id").type(JsonFieldType.NUMBER)
                     .description("The terms and conditions id"),
             fieldWithPath("[].priv_pol_id").type(JsonFieldType.NUMBER)

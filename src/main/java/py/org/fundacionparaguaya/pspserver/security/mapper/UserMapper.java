@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import py.org.fundacionparaguaya.pspserver.security.entities.UserEntity;
 import py.org.fundacionparaguaya.pspserver.common.mapper.BaseMapper;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDTO;
+import py.org.fundacionparaguaya.pspserver.security.repositories.UserRoleRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,9 +19,11 @@ public class UserMapper implements BaseMapper<UserEntity, UserDTO> {
 
 
     private final ModelMapper modelMapper;
+    private final UserRoleRepository userRoleRepository;
 
-    public UserMapper(ModelMapper modelMapper) {
+    public UserMapper(ModelMapper modelMapper, UserRoleRepository userRoleRepository) {
         this.modelMapper = modelMapper;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Override
@@ -34,6 +37,8 @@ public class UserMapper implements BaseMapper<UserEntity, UserDTO> {
     @Override
     public UserDTO entityToDto(UserEntity entity) {
         UserDTO dto = modelMapper.map(entity, UserDTO.class);
+        dto.setPass(null);
+        dto.setRole(this.userRoleRepository.findByUserId(entity.getId()).getRole().getSecurityName());
         return dto;
     }
 

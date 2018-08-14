@@ -10,6 +10,7 @@
   	"phoneNumber":"021555555"
   },
   "economic_survey_data": {
+    "familyCity":"Asunción",
     "currency": "guaranies",
     "activityMain": "worker",
     "activitySecondary": "mechanic",
@@ -58,6 +59,26 @@
   "survey_id": 0,
   "snapshot_economic_id": 0,
   "user_id": 0,
+  "user" : {
+      "userId" : 0,
+      "username" : "survey_user",
+      "email" : "survey_user@povertysotplight.org",
+      "active" : true,
+      "application" : null,
+      "organization" : null,
+      "role" : null
+  },
+  "family": {
+      "familyId": 0,
+      "name": "Juan Perez",
+      "code": "PY.JP.20180101",
+      "locationPositionGps": "0.0, 0.0",
+      "person": null,
+      "application": null,
+      "organization": null,
+      "user": null,
+      "active": true
+  },
   "term_cond_id": 0,
   "priv_pol_id": 0
 }

@@ -5,7 +5,7 @@
 
 	<groupId>py.org.fundacionparaguaya</groupId>
 	<artifactId>psp-server</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.13-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>psp-server</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.6.RELEASE</version>
+		<version>1.5.11.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repositories -->
 	</parent>
 
@@ -132,6 +132,8 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>1.4.3.RELEASE</version>
         </dependency>
+        
+        
 
 		<dependency>
 			<groupId>com.amazonaws</groupId>
@@ -292,9 +294,15 @@
 				<configuration>
 					<gitFlowConfig>
 						<versionTagPrefix>v</versionTagPrefix>
+						
+						<!-- Uncomment this out when new workflow is used
+						<developmentBranch>master</developmentBranch>
+						<productionBranch>master</productionBranch> -->
 					</gitFlowConfig>
 				</configuration>
        		</plugin>
+
+			
 			
 		</plugins>
 

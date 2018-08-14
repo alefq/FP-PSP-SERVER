@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiParam;
 import py.org.fundacionparaguaya.pspserver.common.exceptions.NotFoundException;
+import py.org.fundacionparaguaya.pspserver.common.exceptions.UnknownResourceException;
 import py.org.fundacionparaguaya.pspserver.security.dtos.UserDetailsDTO;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.NewSnapshot;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.Snapshot;
 import py.org.fundacionparaguaya.pspserver.surveys.dtos.SnapshotIndicators;
+import py.org.fundacionparaguaya.pspserver.surveys.dtos.SurveyData;
 import py.org.fundacionparaguaya.pspserver.surveys.services.SnapshotService;
 
 /**
@@ -43,13 +45,34 @@ public class SnapshotController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @io.swagger.annotations.ApiOperation(value = "Retrieves all snapshots for a  survery", notes = "A `GET` request with a survey parameter will return a list of snapshots for the that survey.", response = List.class, tags = {})
-    @io.swagger.annotations.ApiResponses(value = {
-            @io.swagger.annotations.ApiResponse(code = 200, message = "List of available surveys", response = Snapshot.class, responseContainer = "List") })
-    public ResponseEntity getSnapshots(@RequestParam("survey_id") Long surveyId,
-            @RequestParam(value = "family_id", required = false) Long familiyId) {
-        List<Snapshot> snapshots = snapshotService.find(surveyId, familiyId);
+    @io.swagger.annotations.ApiOperation(
+            value = "Retrieves snapshots filtered by several parameters",
+            notes = "A `GET` request with filters will return a list of snapshots that comply with the parameters. "
+                    + "Filter are optional and can be combined",
+            response = List.class,
+            tags = {})
+    @io.swagger.annotations.ApiResponses(
+            value = {@io.swagger.annotations.ApiResponse(
+                    code = 200,
+                    message = "List of available surveys",
+                    response = Snapshot.class,
+                    responseContainer = "List")})
+    public ResponseEntity getSnapshots(
+            @RequestParam(value = "survey_id", required = false) Long surveyId,
+            @RequestParam(value = "family_id", required = false) Long familyId,
+            @RequestParam(value = "application_id", required = false) Long applicationId,
+            @RequestParam(value = "organization_id", required = false) Long organizationId,
+            @RequestParam(value = "user_id", required = false) Long userId,
+            @AuthenticationPrincipal UserDetailsDTO user) {
+        List<Snapshot> snapshots =
+                snapshotService.getSnapshotsByFilters(surveyId, applicationId, organizationId, userId, familyId, user);
         return ResponseEntity.ok(snapshots);
+    }
+
+    @GetMapping(value = "/survey/{survey_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getSnapshotsBySurvey(@PathVariable("survey_id") Long surveyId){
+        List<SurveyData> surveyDataList = snapshotService.findBySurveyId(surveyId);
+        return ResponseEntity.ok(surveyDataList);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -93,6 +116,11 @@ public class SnapshotController {
     	snapshotService.deleteSnapshotById(snapshotEconomicId);
         return ResponseEntity.noContent().build();
     }
-    
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, path = "/all/family")
+    public ResponseEntity getAllSnapshotsByFamily(
+            @RequestParam(value = "family_id") Long familyId) throws UnknownResourceException {
+        List<Snapshot> snapshots = snapshotService.getSnapshotsByFamily(familyId);
+        return ResponseEntity.ok(snapshots);
+    }
 }

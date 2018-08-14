@@ -1,14 +1,12 @@
 package py.org.fundacionparaguaya.pspserver.families.dtos;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-
 import com.google.common.base.MoreObjects;
-
 import py.org.fundacionparaguaya.pspserver.families.constants.Gender;
 import py.org.fundacionparaguaya.pspserver.system.dtos.CityDTO;
 import py.org.fundacionparaguaya.pspserver.system.dtos.CountryDTO;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 public class PersonDTO implements Serializable {
 
@@ -35,6 +33,8 @@ public class PersonDTO implements Serializable {
 
     private String phoneNumber;
 
+    private String email;
+
     private CountryDTO countryOfBirth;
 
     private CityDTO city;
@@ -43,15 +43,14 @@ public class PersonDTO implements Serializable {
 
     private String birthdate;
 
-    public PersonDTO() {
-    }
+    private String postCode;
 
-    private PersonDTO(Long personId, String firstName, String lastName,
-            String identificationType, String identificationNumber,
-            String personRole, Gender gender, String activityPrimary,
-            String activitySecundary, String phoneNumber,
-            CountryDTO countryOfBirth, CityDTO city, FamilyDTO family,
-            String birthdate) {
+    public PersonDTO() {}
+
+    private PersonDTO(Long personId, String firstName, String lastName, String identificationType,
+                      String identificationNumber, String personRole, Gender gender, String activityPrimary,
+                      String activitySecundary, String phoneNumber, String email, CountryDTO countryOfBirth,
+                      CityDTO city, FamilyDTO family, String birthdate, String postCode) {
         this.personId = personId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,10 +61,12 @@ public class PersonDTO implements Serializable {
         this.activityPrimary = activityPrimary;
         this.activitySecundary = activitySecundary;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.countryOfBirth = countryOfBirth;
         this.city = city;
         this.family = family;
         this.birthdate = birthdate;
+        this.postCode = postCode;
     }
 
     public static class Builder {
@@ -79,10 +80,12 @@ public class PersonDTO implements Serializable {
         private String activityPrimary;
         private String activitySecundary;
         private String phoneNumber;
+        private String email;
         private CountryDTO countryOfBirth;
         private CityDTO city;
         private FamilyDTO family;
         private String birthdate;
+        private String postCode;
 
         public Builder personId(Long personId) {
             this.personId = personId;
@@ -134,6 +137,11 @@ public class PersonDTO implements Serializable {
             return this;
         }
 
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
         public Builder countryOfBirth(CountryDTO countryOfBirth) {
             this.countryOfBirth = countryOfBirth;
             return this;
@@ -154,13 +162,16 @@ public class PersonDTO implements Serializable {
             return this;
         }
 
-        public PersonDTO build() {
-            return new PersonDTO(personId, firstName, lastName,
-                    identificationType, identificationNumber, personRole,
-                    gender, activityPrimary, activitySecundary, phoneNumber,
-                    countryOfBirth, city, family, birthdate);
+        public Builder postCode(String postCode) {
+            this.postCode = postCode;
+            return this;
         }
 
+        public PersonDTO build() {
+            return new PersonDTO(personId, firstName, lastName, identificationType, identificationNumber, personRole,
+                                    gender, activityPrimary, activitySecundary, phoneNumber, email, countryOfBirth,
+                                    city, family, birthdate, postCode);
+        }
     }
 
     public static Builder builder() {
@@ -247,6 +258,14 @@ public class PersonDTO implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public CountryDTO getCountryOfBirth() {
         return countryOfBirth;
     }
@@ -279,17 +298,31 @@ public class PersonDTO implements Serializable {
         this.birthdate = birthdate;
     }
 
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("personId", personId)
-                .add("name", firstName).add("lastname", lastName)
-                .add("personRole", personRole).add("gender", gender)
+        return MoreObjects.toStringHelper(this)
+                .add("personId", personId)
+                .add("name", firstName)
+                .add("lastname", lastName)
+                .add("personRole", personRole)
+                .add("gender", gender)
                 .add("activityPrimary", activityPrimary)
                 .add("activitySecundary", activitySecundary)
                 .add("phoneNumber", phoneNumber)
-                .add("countryOfBirth", countryOfBirth.toString())
-                .add("city", city.toString()).add("family", family.toString())
-                .add("birthdate", birthdate.toString()).toString();
+                .add("email", email)
+                .add("countryOfBirth", countryOfBirth)
+                .add("city", city)
+                .add("family", family)
+                .add("birthdate", birthdate)
+                .add("postCode", postCode)
+                .toString();
     }
-
 }
