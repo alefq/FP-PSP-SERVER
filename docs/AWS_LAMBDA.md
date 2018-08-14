@@ -4,19 +4,23 @@ The server exposes info about snapshots through AWS Lambda/API Gateway.
 
 Base API URL: https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta
 
-## /snapshots/{surveyId}
+## /snapshots
 
-Description: Gets snapshots indicators from a provided survey
+> The endpoint /snapshots/{surveyId} is still available, but we encourage the use of this endpoint instead
+
+Description: Gets snapshots indicators from a provided survey and/or application id (hub)
 
 ```
-curl --header "x-api-key: [YOUR_API_KEY]" https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta/snapshots/1
+curl --header "x-api-key: [YOUR_API_KEY]" https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta/snapshots?surveyId=1&applicationId=2
 ```
-
-**Path parameters**
-
-_surveyId_: the id of the survey
 
 **Query URL Parameters**
+
+_surveyId_: the id of the survey. If no value provided, will not filter indicators by survey
+
+_applicationId_: the id of the application (hub). If no value provided, will not filter indicators by application
+
+_indicatorName1=indicatorValue1..._;
 
 Can be any of the indicators properties names for that survey. This can vary for each survey.
 
@@ -29,7 +33,7 @@ The indicators properties values can be any of the following:
 Example:
 
 ```
-curl --header "x-api-key: [YOUR_API_KEY]" https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta/snapshots/11?security=2&registeredToVoteAndVotesInElections=2
+curl --header "x-api-key: [YOUR_API_KEY]" https://d3w0k61hzb.execute-api.eu-west-2.amazonaws.com/beta/snapshots?surveyId=11&applicationId=2&security=2&registeredToVoteAndVotesInElections=2
 ```
 
 ## /surveys/{surveyId}
